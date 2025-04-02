@@ -1,0 +1,50 @@
+services:
+  apache:
+    build: .
+    container_name: sarks_apache
+    restart: always
+    volumes:
+      - ./sarks:/var/www/html
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    networks:
+      - sarks_network
+
+  mysql:
+    image: mysql:8.0
+    container_name: sarks_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: sarksdb
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sarksdb:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+    networks:
+      - sarks_network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: sarks_phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+    networks:
+      - sarks_network
+
+networks:
+  sarks_network:
+
+volumes:
+  mysql_data:

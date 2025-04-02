@@ -1,0 +1,6 @@
+<?php
+    session_start(); //to ensure same session being used
+    session_destroy(); //destroy the session
+    header("location:/sarks/"); //to redirect back to "index.html" after logging out
+exit();
+?>

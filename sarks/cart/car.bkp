@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Sarks</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Icons -->
+  <link href="assets/img/imageedit_1_2859685327.png" rel="icon">
+  <link href="assets/img/imageedit_1_2859685327.png" rel="icon2">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Other CSS Files -->
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+<?php
+
+	if(isset($_POST['submit'])){
+		
+		foreach($_POST['quantity'] as $key => $val) {
+			if($val==0) {
+				unset($_SESSION['cart'][$key]);
+			}else{
+				$_SESSION['cart'][$key]['quantity']=$val;
+			}
+		}
+		
+	}
+
+?>
+
+<h4>View cart</h4>
+
+<a href="index.php" style="font-weight: bold;color: red;">Go back to products page</a><br><br>
+<form method="post" action="index.php?page=cart">
+    
+	<table>
+	    
+		<tr>
+		    <th>Name</th>
+		    <th>Quantity</th>
+		    <th>Price</th>
+		    <th>Items Price</th>
+		</tr>
+		
+		
+		
+		
+		
+		
+		<form class="col-md-4 col-sm-offset-4 text-center" style="margin: 2%;background-color: #e3e8ef;border: 1px #e3e8ef;border-radius: 5%; opacity:0.9;filter: alpha(opacity=60);text-align: center;margin-left: 35%;padding-top: 50%;padding-bottom: 2%;box-shadow: 5px 10px #989ba0;margin-top: 4%" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" >
+			  <div class="form-group center"><br>
+				<label for="user" style="font-weight: bold;color: #000000;">Customer Name:</label>
+				<input type="text" class="form-control" id="user" name="uname" style="width:50%;margin-left: 24%;margin-top:-35px;" required>
+			  </div><br><br>
+			  
+			  <div class="form-group">
+				<label for="mbl" style="font-weight: bold;color: #000000;">Mobile:</label>
+				<input type="text" class="form-control" id="mbl" pattern="[0]{1}[1-9]{1}[0-9]{6}" name="umobile" style="width:50%;margin-left: 24%;margin-top:-35px;" required>
+			  </div><br><br>
+
+			  <div class="form-group">
+				<label for="adrs" style="font-weight: bold;color: #000000;">Address:</label>
+				<input type="text" class="form-control" id="adrs" name="uaddress" style="width:50%;margin-left: 24%;margin-top:-35px;" required>
+			  </div><br><br>
+			  
+			  
+			  
+		
+		
+		
+		
+		
+			<?php
+		
+			$sql="SELECT * FROM products WHERE pdtId IN (";
+					
+					foreach($_SESSION['cart'] as $id => $value) {
+						$sql.=$id.",";
+					}
+					
+					$sql=substr($sql, 0, -1).") ORDER BY pdtId ASC";
+					$query=mysqli_query($con,$sql);
+					$totalprice=0;
+
+					
+					
+					while($row=mysqli_fetch_array($query)){
+						$subtotal=$_SESSION['cart'][$row['pdtId']]['quantity']*$row['price'];
+						$totalprice+=$subtotal;
+					?>
+						<tr>
+						    <td><?php echo $row['pdtName'] ?></td>
+						    <td><input type="text" name="quantity[<?php echo $row['pdtId'] ?>]" size="5" value="<?php echo $_SESSION['cart'][$row['pdtId']]['quantity'] ?>" /></td>
+						    <td><?php echo $row['price'] ?>$</td>
+						    <td><?php echo $_SESSION['cart'][$row['pdtId']]['quantity']*$row['price'] ?>$</td>
+						</tr>
+						
+					<?php	
+					$conn=mysqli_connect("localhost","root","","sarksdb");
+	               if(!$conn){
+		              die("Connection failed: ".mysqli_connect_error);
+	               }
+	               else
+		              //echo "Connected successfully <br>";
+					   
+					   if ($_SERVER["REQUEST_METHOD"] == "POST"){
+                $cuName=$_POST["uname"];
+	            $cuMobile=$_POST["umobile"];
+	            $cuAddress=$_POST["uaddress"];
+	            $conn=mysqli_connect("localhost","root","","sarksdb");
+	               if(!$conn){
+		              die("Connection failed: ".mysqli_connect_error);
+	               }
+	               else
+		              //echo "Connected successfully <br>";
+	
+	      
+               $sql1="insert into productseorder(ordercusname,orderphone,orderaddress,pdtName,pdtprice,pdtquantity) values('".$cuName."', '".$cuMobile."','".$cuAddress."','".$row['pdtName']."','".$row['price']."','".$_SESSION['cart'][$row['pdtId']]['quantity']."')";
+               $result1= mysqli_query($conn,$sql1)or die(mysqli_error($conn));
+	                   if($result1){
+		                  
+                           //$message = "Successfully registered! hehe";
+                            //echo "<script type='text/javascript'>alert('$message');</script>";
+                           //header("Location:index.php");
+	                   }
+	                   else
+	                   {
+                          
+                           $message = "Registration Unsuccessful!";
+                            echo "<script type='text/javascript'>alert('$message');</script>";
+	                   }
+          
+					   
+					   }   
+					   
+
+					
+					?>
+					
+
+						
+						
+					<?php
+						
+					}
+		?>
+		
+		
+					<tr>
+					    <td>Total Price: <?php echo $totalprice ?>$</td>
+					</tr>
+		
+	</table>
+	
+	
+	<br>
+	
+	
+	
+	
+	
+		<button type="submit" onclick="myFunction()" class="btn btn-default" style="font-weight: bold;color: red;">Confirm Order</button>
+
+		<script>
+		function myFunction() {
+			alert("Congratulations!! Your order has been placed. We will contact you shortly. ");
+		}
+		</script>
+		
+                <br>
+                
+			</form> 
+	
+			
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</form>
+<br />
+
+
+<body>

@@ -1,0 +1,71 @@
+<?php
+	if(isset($_GET['action']) && $_GET['action']=="add"){
+		
+		$id=intval($_GET['id']);
+		
+		if(isset($_SESSION['cart'][$id])){
+			
+			$_SESSION['cart'][$id]['quantity']++;
+			
+		}else{
+			
+			$sql_s="SELECT * FROM products
+				WHERE pdtId={$id}";
+			$query_s=mysqli_query($con,$sql_s);
+			if(mysqli_num_rows($query_s)!=0){
+				$row_s=mysqli_fetch_array($query_s);
+				
+				$_SESSION['cart'][$row_s['pdtId']]=array(
+						"quantity" => 1,
+						"price" => $row_s['price']
+					);
+				
+				
+			}else{
+				
+				$message="This product id it's invalid!";
+				
+			}
+			
+		}
+		
+	}
+
+?>
+
+<h3>Product List</h3>
+<?php
+				if(isset($message)){
+					echo "<h2>$message</h2>";
+				}
+				?>
+
+			<table style="width:100%">
+			    <tr>
+			        <th>Name</th>
+			        <th>Price</th>
+			        <th>Action</th>
+			    </tr>
+			    
+				<?php
+				
+					$sql="SELECT * FROM products ORDER BY pdtId ASC";
+					$query=mysqli_query($con,$sql);
+					
+					while ($row=mysqli_fetch_array($query)) {
+						
+				?>
+						<tr>
+						    <td><?php echo $row['pdtName'] ?></td>
+						    <td><?php echo $row['price'] ?>$</td>
+						    <td><a  style="font-weight: bold;color: red;" href="index.php?page=products&action=add&id=<?php echo $row['pdtId'] ?>">Add to cart</a></td>
+						</tr>
+				<?php
+						
+					}
+				
+				?>
+			    
+			</table>
+
+	

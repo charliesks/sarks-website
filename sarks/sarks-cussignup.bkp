@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Sarks</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Icons -->
+  <link href="assets/img/imageedit_1_2859685327.png" rel="icon">
+  <link href="assets/img/imageedit_1_2859685327.png" rel="icon2">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Other CSS Files -->
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+	<!-- ======= Header ======= -->
+  	<header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+    	<h1 class="logo"><a href="index.html">Sarks</a></h1>
+	  	<a href="index.html" class="logo"><img src="assets/img/imageedit_1_2859685327.png" alt="" class="img-fluid"></a>
+
+      	<nav id="navbar" class="navbar">
+        	<ul>
+          		<li><a class="nav-link scrollto" href="sarks-login.php">Login</a></li>
+        	</ul>
+        	<i class="bi bi-list mobile-nav-toggle"></i>
+      	</nav>
+
+    </div>
+  	</header><!-- End Header -->
+	
+	<!-- ======= Signup Section ======= -->
+    <section id="services" class="services">
+      <div class="container">
+      
+          <form class="col-lg-12 col-md-6 align-items-stretch mt-4 mt-md-0 " data-aos="fade-up" data-aos-delay="150" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" >
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-user-plus"></i></div>
+              <div class="form-group center">
+				<label for="user" style="font-weight: bold;color: #000000;">Username:</label>
+				<input type="text" class="form-control" id="user" name="uname" pattern="[a-zA-Z]+" style="width:50%;margin-left: 24%" required>
+			  </div><br>
+			  <div class="form-group center">
+				<label for="email" style="font-weight: bold;color: #000000;">Email:</label>
+				<input type="email" class="form-control" id="email" name="uemail" style="width:50%;margin-left: 24%" required>
+			  </div><br>
+			  <div class="form-group">
+				<label for="pwd" style="font-weight: bold;color: #000000;">Password:</label>
+				<input type="password" class="form-control" id="pwd" name="upass" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" style="width:50%;margin-left: 24%" required>
+        </div><br>
+			  <div class="form-group">
+				<label for="mbl" style="font-weight: bold;color: #000000;">Mobile:</label>
+				<input type="text" class="form-control" id="mbl" pattern="[0]{1}[1-9]{1}[0-9]{6}" name="umobile" style="width:50%;margin-left: 24%" required>
+			  </div><br>
+			  <div class="form-group">
+				<label for="adrs" style="font-weight: bold;color: #000000;">Address:</label>
+				<input type="text" class="form-control" id="adrs" name="uaddress" style="width:50%;margin-left: 24%" required>
+			  </div><br>
+			  
+			  <button type="submit" class="btn btn-default" style="font-weight: bold;color: red;">Sign Up!</button>
+                <br>
+                <br>
+                <a href="sarks-login.php" style="font-weight: bold;color: red;">Go back to Login!</a>
+          </form>
+		  <?php
+            if ($_SERVER["REQUEST_METHOD"] == "POST"){
+                $cuName=$_POST["uname"];
+	            $cuPassword=$_POST["upass"];
+	            $cuEmail=$_POST["uemail"];
+	            $cuMobile=$_POST["umobile"];
+	            $cuAddress=$_POST["uaddress"];
+	            $conn=mysqli_connect("sarks_mysql","root","root","sarksdb");
+	               if(!$conn){
+		              die("Connection failed: ".mysqli_connect_error);
+	               }
+	               else
+		              //echo "Connected successfully <br>";
+	
+	           $sql="insert into customerlogin(cuUserName,cuPassword) values('".$cuName."', '".$cuPassword."')";
+               $sql1="insert into customer(cuEmail,cuMobile,cuAddress,cuName,cuId) values('".$cuEmail."', '".$cuMobile."','".$cuAddress."', '".$cuName."', LAST_INSERT_ID())";
+	           $result= mysqli_query($conn,$sql)or die(mysqli_error($conn));
+               $result1= mysqli_query($conn,$sql1)or die(mysqli_error($conn));
+	                   if($result && $result1){
+		                  
+                           //header("Location:sarks-login.php");
+
+						                $message = "Successfully registered!";
+                            echo "<script type='text/javascript'>alert('$message');</script>";
+	                   }
+	                   else
+	                   {
+                          
+                           $message = "Registration Unsuccessful!";
+                            echo "<script type='text/javascript'>alert('$message');</script>";
+	                   }
+					   
+            }
+            ?>
+			
+      </div>
+      
+    </section><!-- End Signup Section -->
+		
+	<!-- ======= Footer ======= -->
+	<footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-info">
+              <h3>Sarks</h3>
+              <p>
+                JD Hekmeh Street <br>
+                1202, LB<br><br>
+                <strong>Phone:</strong> +961 3 597 498<br>
+                <strong>Email:</strong> info@sarks.org<br>
+              </p>
+              <div class="social-links mt-3">
+                <a href="https://www.buymeacoffee.com/sarks"><i class="bx bx-coffee"></i></a>
+                <a href="https://sarks.org"><i class="bx bx-cloud"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="index.html#hero">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="index.html#about">About us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="index.html#services">Services</a></li>
+              
+            </ul>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4>Our Services</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="index.html#services">Custom URL Blocking</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="index.html#services">Ad Blocking</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="index.html#services">Malware protection</a></li>
+              
+            </ul>
+          </div>
+
+          <div class="col-lg-4 col-md-6 footer-newsletter">
+            <h4>Our Newsletter</h4>
+            <p>Please Subscribe to receive our Newsletter</p>
+            <form action="" method="post">
+              <input type="email" name="email"><input type="submit" value="Subscribe">
+            </form>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>SARKS</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        Designed by <a href="https://Sarks.org/">Charbel Sarkis</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+  
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <div id="preloader"></div>
+
+  <!-- Other JS Files -->
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+</html>
