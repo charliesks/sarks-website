@@ -17,8 +17,8 @@ RUN apt-get update && apt-get install -y \
 RUN a2enmod rewrite
 
 #Change Apache config to listen on port 8080 instead of 80
-RUN sed -i 's|<VirtualHost \*:80>|<VirtualHost *:8080>|' /etc/apache2/sites-enabled/000-default.conf \
- && sed -i 's/^Listen 80$/Listen 8080/' /etc/apache2/ports.conf
+RUN sed -i 's|<VirtualHost \*:80>|<VirtualHost *:8080>|' /etc/apache2/sites-enabled/000-default.conf 
+
 #RUN sed -i 's|<VirtualHost \*:80>|<VirtualHost *:8080>|' /etc/apache2/sites-enabled/000-default.conf \
  #&& echo "Listen 8080" >> /etc/apache2/ports.conf
 
