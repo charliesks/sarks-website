@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Sarks</title>
+    <title>BMB</title>
 
     <!-- Icons -->
     <link href="assets/img/imageedit_1_2859685327.png" rel="icon">
@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Header -->
     <header id="header" class="d-flex align-items-center">
         <div class="container d-flex align-items-center justify-content-between">
-            <h1 class="logo"><a href="index.html">Sarks</a></h1>
+            <h1 class="logo"><a href="index.html">BMB</a></h1>
             <nav id="navbar" class="navbar">
                 <ul>
                     <li><a class="nav-link scrollto" href="sarks-login.php">Login</a></li>
@@ -103,9 +103,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-md-6 footer-info">
-                        <h3>Sarks</h3>
-                        <p>JD Hekmeh Street<br>1202, LB<br><strong>Phone:</strong> +961 3 597 498<br>
-                            <strong>Email:</strong> info@sarks.org<br>
+                        <h3>BMB</h3>
+                        <p>2nd floor, Dynagraph Building, Jisr Al Basha Street<br>Hazmieh, Lebanon<br><strong>Phone:</strong> +961 5 428 636<br>
+                            <strong>Email:</strong> support@bmbgroup.com<br>
                         </p>
                         <div class="social-links mt-3">
                             <a href="https://www.buymeacoffee.com/sarks"><i class="bx bx-coffee"></i></a>
@@ -140,10 +140,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="container">
             <div class="copyright">
-                &copy; Copyright <strong><span>SARKS</span></strong>. All Rights Reserved
+                &copy; Copyright <strong><span>BMB</span></strong>. All Rights Reserved
             </div>
             <div class="credits">
-                Designed by <a href="https://Sarks.org/">Charbel Sarkis</a>
+                Designed by <a href="https://bmbgroup.com">Charbel Sarkis</a>
             </div>
         </div>
     </footer>
