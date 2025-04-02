@@ -1,5 +1,5 @@
 # Use official PHP image with Apache
-FROM ubi9/php-82
+FROM  quay.io/csarkis/sarks-website 
 
 # Install required PHP extensions
 RUN apt-get update && apt-get install -y \
