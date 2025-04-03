@@ -9,7 +9,7 @@ if (!isset($_SESSION["uname"])) {
 }
 
 // Use a prepared statement to prevent SQL injection
-$stmt = $con->prepare("SELECT cuId, cuPassword FROM customerlogin WHERE cuUserName = ?");
+$stmt = $conn->prepare("SELECT cuId, cuPassword FROM customerlogin WHERE cuUserName = ?");
 $stmt->bind_param("s", $_SESSION["uname"]);
 $stmt->execute();
 $stmt->store_result();
@@ -24,7 +24,7 @@ if ($stmt->num_rows > 0) {
 }
 
 $stmt->close();
-$con->close();
+$conn->close();
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
