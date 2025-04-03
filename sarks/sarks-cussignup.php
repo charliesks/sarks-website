@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "connection.php"; // central DB connection
+require_once __DIR__ . '/includes/connection.php'; // central DB connection
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cuName = $_POST["uname"];

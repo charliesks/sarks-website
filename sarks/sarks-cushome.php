@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "connection.php"; // central DB connection
+require_once __DIR__ . '/includes/connection.php'; // central DB connection
 
 // Redirect if user is not logged in
 if (!isset($_SESSION["uname"])) {
