@@ -6,10 +6,10 @@ $pass   = getenv('DB_PASSWORD') ?: 'root';
 $db     = getenv('DB_NAME') ?: 'sarksdb';
 
 // Connect to MySQL
-$con = mysqli_connect($server, $user, $pass, $db);
+$conn = mysqli_connect($server, $user, $pass, $db);
 
 // Check connection
-if (!$con) {
+if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 ?>
