@@ -1,4 +1,4 @@
-FROM phpmyadmin:latest
+FROM phpmyadmin/phpmyadmin
 
 # Change Apache to listen on port 8081
 RUN sed -i 's|<VirtualHost \*:80>|<VirtualHost *:8081>|' /etc/apache2/sites-enabled/000-default.conf \
