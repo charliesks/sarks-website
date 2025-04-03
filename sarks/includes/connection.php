@@ -1,16 +1,15 @@
 <?php
+// Load credentials from environment variables with fallback defaults
+$server = getenv('DB_HOST') ?: 'sarks_mysql';
+$user   = getenv('DB_USER') ?: 'root';
+$pass   = getenv('DB_PASSWORD') ?: 'root';
+$db     = getenv('DB_NAME') ?: 'sarksdb';
 
-	$server="sarks_mysql";
-	$user="root";
-	$pass="root";
-	$db="sarksdb";
-	
-	// connect to mysql
-	
-	$con = mysqli_connect($server, $user, $pass) or die("Sorry, can't connect to the mysql.");
-	
-	// select the db
-	
-	mysqli_select_db($con,$db) or die("Sorry, can't select the database.");
+// Connect to MySQL
+$con = mysqli_connect($server, $user, $pass, $db);
 
+// Check connection
+if (!$con) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 ?>
