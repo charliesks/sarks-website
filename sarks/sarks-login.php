@@ -1,16 +1,10 @@
 <?php
 session_start();
+require_once "connection.php"; // central DB connection
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["uname"];
     $password = $_POST["upass"];
-
-    // Connect to MySQL
-    $conn = mysqli_connect("sarks_mysql", "root", "root", "sarksdb");
-
-    if (!$conn) {
-        die("Connection Failed: " . mysqli_connect_error());
-    }
 
     // Use a prepared statement to prevent SQL injection
     $stmt = $conn->prepare("SELECT cuId, cuPassword FROM customerlogin WHERE cuUserName = ?");

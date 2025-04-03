@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once "connection.php"; // central DB connection
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cuName = $_POST["uname"];
@@ -7,13 +8,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cuEmail = $_POST["uemail"];
     $cuMobile = $_POST["umobile"];
     $cuAddress = $_POST["uaddress"];
-
-    // Connect to MySQL
-    $conn = mysqli_connect("sarks_mysql", "root", "root", "sarksdb");
-
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
 
     // Start a transaction to ensure both inserts succeed
     mysqli_begin_transaction($conn);

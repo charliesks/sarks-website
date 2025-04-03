@@ -1,17 +1,11 @@
 <?php
 session_start();
+require_once "connection.php"; // central DB connection
 
 // Redirect if user is not logged in
 if (!isset($_SESSION["uname"])) {
     header("Location: sarks-login.php");
     exit();
-}
-
-// Connect to MySQL
-$conn = mysqli_connect("sarks_mysql", "root", "root", "sarksdb");
-
-if (!$conn) {
-    die("Connection Failed: " . mysqli_connect_error());
 }
 
 // Get user details from the database
