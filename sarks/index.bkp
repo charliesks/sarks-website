@@ -74,9 +74,8 @@
     </video>
     <section id="hero" class="d-flex align-items-center">
       <div class="container position-relative" data-aos="fade-up" data-aos-delay="500">
-        <h1>OpenShift Demo</h1>
-        <button id="trigger-pipeline" class="btn btn-danger">Trigger Pipeline</button>
-        <p id="pipeline-status" style="color: white; margin-top: 10px;"></p>
+        <h1>We help you navigate The Internet</h1>
+        <a href="#pricing" class="btn-get-started scrollto">Get Started</a>
       </div>
       
     </section><!-- End Hero -->
@@ -357,29 +356,6 @@
   <div id="preloader"></div>
 
   <!-- Other JS Files -->
-  <script>
-    document.getElementById('trigger-pipeline').addEventListener('click', function () {
-      fetch('http://el-sarks-listener-csarkis-dev.apps.rm1.0a51.p1.openshiftapps.com', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          // Optional: add any payload the EventListener expects
-          gitrepositoryurl: "https://github.com/charliesks/sarks-website.git",
-          gitrevision: "main"
-        })
-      })
-      .then(response => {
-        if (response.ok) {
-          document.getElementById("pipeline-status").textContent = "Pipeline triggered successfully!";
-        } else {
-          document.getElementById("pipeline-status").textContent = "Failed to trigger pipeline.";
-        }
-      })
-      .catch(error => {
-        document.getElementById("pipeline-status").textContent = "Error triggering pipeline: " + error;
-      });
-    });
-  </script>
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
