@@ -361,22 +361,28 @@
     document.getElementById('trigger-pipeline').addEventListener('click', function () {
       fetch('http://el-sarks-listener-csarkis-dev.apps.rm1.0a51.p1.openshiftapps.com', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-GitHub-Event': 'push'
+        },
         body: JSON.stringify({
-          // Optional: add any payload the EventListener expects
-          gitrepositoryurl: "https://github.com/charliesks/sarks-website.git",
-          gitrevision: "main"
+          repository: {
+            url: "https://github.com/charliesks/sarks-website"
+          },
+          ref: "refs/heads/main"
         })
       })
       .then(response => {
         if (response.ok) {
-          document.getElementById("pipeline-status").textContent = "Pipeline triggered successfully!";
+          document.getElementById("pipeline-status").textContent = "✅ Pipeline triggered successfully!";
         } else {
-          document.getElementById("pipeline-status").textContent = "Failed to trigger pipeline.";
+          response.text().then(text => {
+            document.getElementById("pipeline-status").textContent = `❌ Failed: ${text}`;
+          });
         }
       })
       .catch(error => {
-        document.getElementById("pipeline-status").textContent = "Error triggering pipeline: " + error;
+        document.getElementById("pipeline-status").textContent = `❌ Error: ${error.message}`;
       });
     });
   </script>
