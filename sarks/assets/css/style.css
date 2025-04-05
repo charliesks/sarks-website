@@ -1480,4 +1480,21 @@ section {
   #footer .footer-top .footer-info {
     margin: -20px 0 30px 0;
   }
+
+/* === Waving Text Effect for Hero Title === */
+#wave-title span {
+  display: inline-block;
+  color: white;
+  font-size: 48px;
+  font-weight: 700;
+  animation: wave-color 2s infinite;
 }
+
+@keyframes wave-color {
+  0%, 100% {
+    color: white;
+  }
+  50% {
+    color: #cc1616;
+  }
+}}

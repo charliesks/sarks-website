@@ -10,8 +10,8 @@
   <meta content="" name="keywords">
 
   <!-- Icons -->
-  <link href="assets/img/imageedit_1_2859685327.png" rel="icon">
-  <link href="assets/img/imageedit_1_2859685327.png" rel="icon2">
+  <link href="assets/img/bmb.png" rel="icon">
+  <link href="assets/img/bmb.png" rel="icon2">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -49,7 +49,11 @@
   <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
-      <h1 class="logo"><a href="index.html">BMB</a></h1>
+      <h1 class="logo">
+        <a href="index.html">
+          <img src="assets/img/bmbwhite.png" alt="BMB Logo" style="height: 40px;"> <!-- Adjust size as needed -->
+        </a>
+      </h1>
 
       <nav id="navbar" class="navbar">
         <ul>
@@ -74,7 +78,7 @@
     </video>
     <section id="hero" class="d-flex align-items-center">
       <div class="container position-relative" data-aos="fade-up" data-aos-delay="500">
-        <h1>OpenShift Pipelines Demo</h1>
+        <h1 id="wave-title">OpenShift Pipelines Demo</h1>
         <a href="#pricing" class="btn-get-started scrollto">Get Started</a>
       </div>
       
@@ -202,7 +206,7 @@
 
           <div class="col-lg-4 col-md-6 mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="150">
             <div class="box">
-              <h3>Gold Protection</h3>
+              <h3>Triggers</h3>
               <ul>
                 <li>Triggers consist of the following main resources that work together to form a reusable, decoupled, and self-sustaining CI/CD system:</li>
                 <li>TriggerTemplate</li>
@@ -331,6 +335,17 @@
   <div id="preloader"></div>
 
   <!-- Other JS Files -->
+  <script>
+    const titleText = "OPENSHIFT PIPELINES DEMO";
+    const waveTitle = document.getElementById("wave-title");
+  
+    titleText.split("").forEach((char, i) => {
+      const span = document.createElement("span");
+      span.textContent = char;
+      span.style.animationDelay = `${i * 0.1}s`;
+      waveTitle.appendChild(span);
+    });
+  </script>
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
