@@ -1497,3 +1497,8 @@ section {
     color: #cc1616;
   }
 }
+@media (prefers-reduced-motion: no-preference) {
+  #wave-title span {
+    animation-play-state: running !important;
+  }
+}

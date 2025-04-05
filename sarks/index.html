@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title></title>
+  <title>BMB</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -336,18 +336,18 @@
 
   <!-- Other JS Files -->
   <script>
-    // Grab the title
-    const title = document.getElementById("wave-title");
-    const text = title.textContent;
+    window.addEventListener('DOMContentLoaded', () => {
+      const title = document.getElementById("wave-title");
+      const text = title.textContent;
   
-    // Replace each character with a span
-    title.innerHTML = "";
-    [...text].forEach((char, index) => {
-      const span = document.createElement("span");
-      span.textContent = char;
-      span.style.animation = `wave-color 2s infinite`;
-      span.style.animationDelay = `${index * 0.1}s`; // Staggered delay for wave
-      title.appendChild(span);
+      title.innerHTML = "";
+      [...text].forEach((char, index) => {
+        const span = document.createElement("span");
+        span.textContent = char;
+        span.style.animation = `wave-color 2s infinite`;
+        span.style.animationDelay = `${index * 0.1}s`;
+        title.appendChild(span);
+      });
     });
   </script>
   <script src="assets/vendor/aos/aos.js"></script>
