@@ -3,9 +3,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
-// Include database connection
-require("../includes/connection.php");
+require_once __DIR__ . '/includes/connection.php'; // central DB connection
 
 // Set the default page
 $_page = "products";
@@ -22,10 +20,10 @@ if (isset($_GET['page']) && in_array($_GET['page'], $allowed_pages)) {
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Sarks - Catalogue</title>
+    <title>BMB - Catalogue</title>
 
     <!-- Icons -->
-    <link href="../assets/img/imageedit_1_2859685327.png" rel="icon">
+    <link href="assets/img/bmb.png" rel="icon">
 
     <!-- Fonts & Styles -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Poppins" rel="stylesheet">
@@ -122,7 +120,7 @@ if (isset($_GET['page']) && in_array($_GET['page'], $allowed_pages)) {
     <footer id="footer">
         <div class="container">
             <div class="copyright">
-                &copy; Copyright <strong><span>SARKS</span></strong>. All Rights Reserved
+                &copy; Copyright <strong><span>BMB</span></strong>. All Rights Reserved
             </div>
             <div class="credits">
                 Designed by <a href="https://Sarks.org/">Charbel Sarkis</a>
