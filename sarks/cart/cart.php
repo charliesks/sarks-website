@@ -3,18 +3,12 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+require_once __DIR__ . '/includes/connection.php'; // central DB connection
 
 // Redirect if cart is empty
 if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
     echo "<script>alert('Your cart is empty! Redirecting to the products page.'); window.location.href='index.php';</script>";
     exit();
-}
-
-// Connect to MySQL
-$conn = mysqli_connect("sarks_mysql", "root", "root", "sarksdb");
-
-if (!$conn) {
-    die("Connection Failed: " . mysqli_connect_error());
 }
 
 // Update cart quantities
@@ -39,7 +33,7 @@ $totalprice = 0;
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Sarks - Shopping Cart</title>
+    <title>BMB - Shopping Cart</title>
 
     <!-- Icons -->
     <link href="assets/img/imageedit_1_2859685327.png" rel="icon">

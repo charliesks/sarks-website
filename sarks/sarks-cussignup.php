@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Sarks - Sign Up</title>
+    <title>BMB - Sign Up</title>
 
     <!-- Icons -->
     <link href="assets/img/imageedit_1_2859685327.png" rel="icon">
@@ -72,7 +72,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Header -->
     <header id="header" class="d-flex align-items-center">
         <div class="container d-flex align-items-center justify-content-between">
-            <h1 class="logo"><a href="index.html">Sarks</a></h1>
+            <h1 class="logo">
+                <a href="index.html">
+                    <img src="assets/img/bmbwhite.png" alt="BMB Logo" style="height: 40px;"> <!-- Adjust size as needed -->
+                </a>
+            </h1>           
             <nav id="navbar" class="navbar">
                 <ul>
                     <li><a class="nav-link scrollto" href="sarks-login.php">Login</a></li>
@@ -124,7 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <footer id="footer">
         <div class="container">
             <div class="copyright">
-                &copy; Copyright <strong><span>SARKS</span></strong>. All Rights Reserved
+                &copy; Copyright <strong><span>BMB</span></strong>. All Rights Reserved
             </div>
             <div class="credits">
                 Designed by <a href="https://Sarks.org/">Charbel Sarkis</a>

@@ -4,11 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Connect to the database
-$con = mysqli_connect("sarks_mysql", "root", "root", "sarksdb");
-if (!$con) {
-    die("Connection Failed: " . mysqli_connect_error());
-}
+require_once __DIR__ . '/includes/connection.php'; // central DB connection
 
 // Add item to cart
 if (isset($_GET['action']) && $_GET['action'] == "add") {
@@ -18,9 +14,9 @@ if (isset($_GET['action']) && $_GET['action'] == "add") {
         $_SESSION['cart'][$id]['quantity']++;
     } else {
         // Fetch product details from database
-        $id_safe = mysqli_real_escape_string($con, $id);
+        $id_safe = mysqli_real_escape_string($conn, $id);
         $sql_s = "SELECT * FROM products WHERE pdtId = $id_safe";
-        $query_s = mysqli_query($con, $sql_s);
+        $query_s = mysqli_query($conn, $sql_s);
 
         if ($query_s && mysqli_num_rows($query_s) > 0) {
             $row_s = mysqli_fetch_array($query_s);
@@ -54,7 +50,7 @@ if (isset($message)) {
     <?php
     // Fetch all products
     $sql = "SELECT * FROM products ORDER BY pdtId ASC";
-    $query = mysqli_query($con, $sql);
+    $query = mysqli_query($conn, $sql);
 
     if ($query) {
         while ($row = mysqli_fetch_array($query)) {

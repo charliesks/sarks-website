@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>BMB</title>
 
     <!-- Icons -->
-    <link href="assets/img/imageedit_1_2859685327.png" rel="icon">
+    <link href="assets/img/bmb.png" rel="icon">
 
     <!-- Fonts & Styles -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Poppins" rel="stylesheet">
