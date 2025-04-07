@@ -79,8 +79,9 @@
     <section id="hero" class="d-flex align-items-center">
       <div class="container position-relative" data-aos="fade-up" data-aos-delay="500">
         <h1 id="wave-title">
-          <span>OpenShift</span> <span>Demo</span>
-        </h1>>
+          <span class="line">OpenShift</span><br>
+          <span class="line">Demo</span>
+        </h1>
         <a href="#pricing" class="btn-get-started scrollto">Get Started</a>
       </div>
       
@@ -339,19 +340,30 @@
   <!-- Other JS Files -->
   <script>
     window.addEventListener('DOMContentLoaded', () => {
-      const title = document.getElementById("wave-title");
-      const text = title.textContent;
-  
-      title.innerHTML = "";
-      [...text].forEach((char, index) => {
-        const span = document.createElement("span");
-        span.textContent = char;
-        span.style.animation = `wave-color 2s infinite`;
-        span.style.animationDelay = `${index * 0.1}s`;
-        title.appendChild(span);
+      const lines = document.querySelectorAll('#wave-title .line');
+    
+      lines.forEach(line => {
+        const text = line.textContent;
+        line.innerHTML = "";
+    
+        [...text].forEach((char, index) => {
+          const span = document.createElement("span");
+          span.textContent = char;
+    
+          // preserve spaces with width
+          if (char === " ") {
+            span.style.width = "0.5em";
+          }
+    
+          span.style.display = "inline-block";
+          span.style.animation = `wave-color 2s infinite`;
+          span.style.animationDelay = `${index * 0.1}s`;
+    
+          line.appendChild(span);
+        });
       });
     });
-  </script>
+    </script>    
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
