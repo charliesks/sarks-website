@@ -1484,17 +1484,23 @@ section {
 /* === Waving Text Effect for Hero Title === */
 /* === Wave animation === */
 #wave-title {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
   text-align: center;
+  white-space: nowrap;
+  overflow-wrap: normal;
 }
 
 #wave-title .word {
   display: flex;
   gap: 2px;
   white-space: nowrap;
+}
+
+#wave-title span {
+  display: inline-block;
+  font-size: 48px;
+  font-weight: 700;
+  color: white;
+  animation: wave-color 2s infinite;
 }
 
 #wave-title .word span {
@@ -1512,8 +1518,8 @@ section {
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
-  #wave-title .word span {
-    font-size: 28px;
+  #wave-title span {
+    font-size: 32px;
   }
 }
 
