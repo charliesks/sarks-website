@@ -145,7 +145,7 @@ $conn->close();
                 &copy; Copyright <strong><span>BMB</span></strong>. All Rights Reserved
             </div>
             <div class="credits">
-                Designed by <a href="https://Sarks.org/">Charbel Sarkis</a>
+                Designed by <a href="https://bmbgroup.com">Charbel Sarkis</a>
             </div>
         </div>
     </footer>
