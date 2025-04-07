@@ -343,25 +343,24 @@
     window.addEventListener('DOMContentLoaded', () => {
       const title = document.getElementById("wave-title");
       const text = title.textContent;
-  
+    
       title.innerHTML = "";
+    
       [...text].forEach((char, index) => {
         const span = document.createElement("span");
         span.textContent = char;
+    
+        if (char === " ") {
+          span.style.width = "0.4em"; // controls space width (adjust if needed)
+          span.style.display = "inline-block";
+        }
+    
         span.style.animation = `wave-color 2s infinite`;
         span.style.animationDelay = `${index * 0.1}s`;
         title.appendChild(span);
       });
     });
-  </script>
-  <script>
-    document.querySelectorAll('#wave-title .word').forEach(word => {
-      const letters = word.textContent.split('');
-      word.innerHTML = letters.map((letter, i) => 
-        `<span style="animation-delay: ${i * 0.1}s">${letter}</span>`).join('');
-    });
-  </script>
-  
+    </script>
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
