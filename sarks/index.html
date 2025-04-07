@@ -79,11 +79,10 @@
     <section id="hero" class="d-flex align-items-center">
       <div class="container position-relative" data-aos="fade-up" data-aos-delay="500">
         <h1 id="wave-title">
-          <span class="wave">OpenShift</span>
-          <span class="wave">Pipelines</span>
-          <span class="wave">Demo</span>
+          <span class="word">OpenShift</span>
+          <span class="word">Pipelines</span>
+          <span class="word">Demo</span>
         </h1>
-        
         <a href="#pricing" class="btn-get-started scrollto">Get Started</a>
       </div>
       
@@ -355,6 +354,14 @@
       });
     });
   </script>
+  <script>
+    document.querySelectorAll('#wave-title .word').forEach(word => {
+      const letters = word.textContent.split('');
+      word.innerHTML = letters.map((letter, i) => 
+        `<span style="animation-delay: ${i * 0.1}s">${letter}</span>`).join('');
+    });
+  </script>
+  
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
