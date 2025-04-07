@@ -1482,44 +1482,40 @@ section {
   }
 
 /* === Waving Text Effect for Hero Title === */
-/* === Wave animation === */
+/* === Waving Text Effect for Hero Title === */
 #wave-title {
+  white-space: normal;     /* Allow line breaks */
+  word-break: break-word;  /* Break if needed */
   text-align: center;
-  white-space: nowrap;
-  overflow-wrap: normal;
-}
-
-#wave-title .word {
-  display: flex;
-  gap: 2px;
-  white-space: nowrap;
+  line-height: 1.2;
 }
 
 #wave-title span {
   display: inline-block;
+  color: white;
   font-size: 48px;
   font-weight: 700;
-  color: white;
   animation: wave-color 2s infinite;
-}
-
-#wave-title .word span {
-  display: inline-block;
-  font-size: 48px;
-  font-weight: 700;
-  color: white;
-  animation: wave-color 1.5s infinite;
+  margin: 0 4px; /* optional: spacing between words */
 }
 
 @keyframes wave-color {
-  0%, 100% { color: white; }
-  50% { color: #cc1616; }
-}
-
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-  #wave-title span {
-    font-size: 32px;
+  0%, 100% {
+    color: white;
+  }
+  50% {
+    color: #cc1616;
   }
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  #wave-title span {
+    animation-play-state: running !important;
+  }
+}
+
+@media (max-width: 768px) {
+  #wave-title span {
+    font-size: 28px;
+  }
+}
