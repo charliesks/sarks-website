@@ -1,47 +1,114 @@
 services:
-  apache:
-    build: .
-    container_name: sarks_apache
-    restart: always
+  apache1:
+    image: quay.io/csarkis/bmb-website:latest
+    restart: unless-stopped
+    cpus: "0.15"
+    mem_limit: 512m
+    mem_reservation: 256m
+    ulimits:
+     nofile:
+      soft: 65535
+      hard: 65535
+     nproc: 4096
+     core: 0
     volumes:
-      - ./sarks:/var/www/html
+      - ./sarks:/var/www/html:ro 
     ports:
-      - "8080:80"
+      - "8080:8080"
     depends_on:
       - mysql
-    networks:
-      - sarks_network
+    networks: [sarks_network]
+
+  apache2:
+    image: quay.io/csarkis/bmb-website:latest
+    restart: unless-stopped
+    cpus: "0.15"
+    mem_limit: 512m
+    mem_reservation: 256m
+    ulimits:
+     nofile:
+      soft: 65535
+      hard: 65535
+     nproc: 4096
+     core: 0
+    volumes:
+      - ./sarks:/var/www/html:ro
+    ports:
+      - "8081:8080"
+    depends_on:
+      - mysql
+    networks: [sarks_network]
+
+  apache3:
+    image: quay.io/csarkis/bmb-website:latest
+    restart: unless-stopped
+    cpus: "0.15"
+    mem_limit: 512m
+    mem_reservation: 256m
+    ulimits:
+     nofile:
+      soft: 65535
+      hard: 65535
+     nproc: 4096
+     core: 0
+    volumes:
+      - ./sarks:/var/www/html:ro
+    ports:
+      - "8082:8080"
+    depends_on:
+      - mysql
+    networks: [sarks_network]
 
   mysql:
     image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    platform: linux/arm64
     container_name: sarks_mysql
-    restart: always
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: sarksdb
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    cpus: "0.20"
+    mem_limit: 512m
+    mem_reservation: 256m  
+    ulimits:
+     nofile:
+      soft: 65535
+      hard: 65535
+     nproc: 8192
+     core: 0
     volumes:
       - mysql_data:/var/lib/mysql
       - ./sarksdb:/docker-entrypoint-initdb.d
     ports:
-      - "3306:3306"
-    networks:
-      - sarks_network
+      - "3307:3306"
+    networks: [sarks_network]
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    image: lscr.io/linuxserver/phpmyadmin:latest
     container_name: sarks_phpmyadmin
-    restart: always
+    restart: unless-stopped
+    cpus: "0.10"
+    mem_limit: 256m
+    mem_reservation: 128m
+    ulimits:
+     nofile:
+      soft: 16384
+      hard: 16384
+     nproc: 1024
+     core: 0
     environment:
-      PMA_HOST: mysql
-      MYSQL_ROOT_PASSWORD: root
+      PUID: 1000
+      PGID: 1000
+      PMA_HOST: sarks_mysql
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
     ports:
-      - "8081:80"
-    depends_on:
-      - mysql
-    networks:
-      - sarks_network
+      - "8089:80"
+    depends_on: [mysql]
+    networks: [sarks_network]
 
 networks:
   sarks_network:
