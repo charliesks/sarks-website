@@ -1,5 +1,6 @@
 # Use official PHP image with Apache
-FROM  quay.io/csarkis/sarks-website 
+#FROM  quay.io/csarkis/sarks-website 
+FROM php:8.2-apache
 
 # Install required PHP extensions
 RUN apt-get update && apt-get install -y \
@@ -36,4 +37,3 @@ RUN chown -R www-data:www-data /var/www/html
 # Expose port 80 (Apache)
 EXPOSE 8080
 #
-

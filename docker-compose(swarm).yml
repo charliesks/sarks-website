@@ -1,0 +1,68 @@
+version: "3.9"
+
+services:
+  apache:
+    image: quay.io/csarkis/sarks-website:latest
+    ports:
+      - "8080:8080"         # Swarm publishes once; VIP load-balances to replicas
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: any
+      update_config:
+        parallelism: 1
+        delay: 10s
+      placement:
+        constraints: [ "node.role == manager" ]  # keep on this node; remove if you add workers
+    volumes:
+      - type: bind
+        source: /home/ubuntu/bmb-sarks-website/sarks
+        target: /var/www/html
+        read_only: true
+    networks: [ sarks_network ]
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - type: bind
+        source: /home/ubuntu/bmb-sarks-website/sarksdb
+        target: /docker-entrypoint-initdb.d
+        read_only: true
+    deploy:
+      restart_policy:
+        condition: any
+      placement:
+        constraints: [ "node.role == manager" ]
+    networks: [ sarks_network ]
+
+  phpmyadmin:
+    image: lscr.io/linuxserver/phpmyadmin:latest
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_ARBITRARY: "1"
+    ports:
+      - "8081:80"
+    deploy:
+      restart_policy:
+        condition: any
+      placement:
+        constraints: [ "node.role == manager" ]
+    networks: [ sarks_network ]
+
+networks:
+  sarks_network:
+    driver: overlay
+
+volumes:
+  mysql_data:
