@@ -1,12 +1,13 @@
 /**
-* Template Name: Day
-* Updated: Mar 10 2023 with Bootstrap v5.2.3
-* Template URL: https://bootstrapmade.com/day-multipurpose-html-template-for-free/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
+* Theme Name: Sarks Redesign
+* Description: Main JS file with GSAP animations.
 */
+
 (function() {
   "use strict";
+
+  // Register GSAP ScrollTrigger
+  gsap.registerPlugin(ScrollTrigger);
 
   /**
    * Easy selector helper function
@@ -35,11 +36,13 @@
   }
 
   /**
-   * Easy on scroll event listener 
+   * Mobile nav toggle
    */
-  const onscroll = (el, listener) => {
-    el.addEventListener('scroll', listener)
-  }
+  on('click', '.mobile-nav-toggle', function(e) {
+    select('#navbar').classList.toggle('navbar-mobile')
+    this.classList.toggle('bi-list')
+    this.classList.toggle('bi-x')
+  })
 
   /**
    * Navbar links active state on scroll
@@ -59,184 +62,133 @@
     })
   }
   window.addEventListener('load', navbarlinksActive)
-  onscroll(document, navbarlinksActive)
+  document.addEventListener('scroll', navbarlinksActive)
 
   /**
-   * Scrolls to an element with header offset
+   * Header Scrolled State
    */
-  const scrollto = (el) => {
-    let header = select('#header')
-    let offset = header.offsetHeight
-
-    if (!header.classList.contains('header-scrolled')) {
-      offset -= 16
+  const headerScrolled = () => {
+    if (window.scrollY > 100) {
+      select('#header').classList.add('scrolled')
+    } else {
+      select('#header').classList.remove('scrolled')
     }
+  }
+  window.addEventListener('load', headerScrolled)
+  document.addEventListener('scroll', headerScrolled)
 
-    let elementPos = select(el).offsetTop
-    window.scrollTo({
-      top: elementPos - offset,
-      behavior: 'smooth'
+  /*--------------------------------------------------------------
+  # GSAP Animations
+  --------------------------------------------------------------*/
+
+  // Hero Section Animations
+  const heroTimeline = gsap.timeline();
+
+  heroTimeline
+    .from('.hero-title span', {
+      y: 100,
+      opacity: 0,
+      duration: 1,
+      stagger: 0.2,
+      ease: 'power4.out'
     })
-  }
+    .from('.hero-subtitle', {
+      y: 50,
+      opacity: 0,
+      duration: 1,
+      ease: 'power3.out'
+    }, '-=0.5')
+    .from('.btn-hero', {
+      y: 50,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'back.out(1.7)'
+    }, '-=0.5');
 
-  /**
-   * Header fixed top on scroll
-   */
-  let selectHeader = select('#header')
-  if (selectHeader) {
-    let headerOffset = selectHeader.offsetTop
-    let nextElement = selectHeader.nextElementSibling
-    const headerFixed = () => {
-      if ((headerOffset - window.scrollY) <= 0) {
-        selectHeader.classList.add('fixed-top')
-        nextElement.classList.add('scrolled-offset')
-      } else {
-        selectHeader.classList.remove('fixed-top')
-        nextElement.classList.remove('scrolled-offset')
-      }
-    }
-    window.addEventListener('load', headerFixed)
-    onscroll(document, headerFixed)
-  }
-
-  /**
-   * Back to top button
-   */
-  let backtotop = select('.back-to-top')
-  if (backtotop) {
-    const toggleBacktotop = () => {
-      if (window.scrollY > 100) {
-        backtotop.classList.add('active')
-      } else {
-        backtotop.classList.remove('active')
-      }
-    }
-    window.addEventListener('load', toggleBacktotop)
-    onscroll(document, toggleBacktotop)
-  }
-
-  /**
-   * Mobile nav toggle
-   */
-  on('click', '.mobile-nav-toggle', function(e) {
-    select('#navbar').classList.toggle('navbar-mobile')
-    this.classList.toggle('bi-list')
-    this.classList.toggle('bi-x')
-  })
-
-  /**
-   * Mobile nav dropdowns activate
-   */
-  on('click', '.navbar .dropdown > a', function(e) {
-    if (select('#navbar').classList.contains('navbar-mobile')) {
-      e.preventDefault()
-      this.nextElementSibling.classList.toggle('dropdown-active')
-    }
-  }, true)
-
-  /**
-   * Scrool with ofset on links with a class name .scrollto
-   */
-  on('click', '.scrollto', function(e) {
-    if (select(this.hash)) {
-      e.preventDefault()
-
-      let navbar = select('#navbar')
-      if (navbar.classList.contains('navbar-mobile')) {
-        navbar.classList.remove('navbar-mobile')
-        let navbarToggle = select('.mobile-nav-toggle')
-        navbarToggle.classList.toggle('bi-list')
-        navbarToggle.classList.toggle('bi-x')
-      }
-      scrollto(this.hash)
-    }
-  }, true)
-
-  /**
-   * Scroll with ofset on page load with hash links in the url
-   */
-  window.addEventListener('load', () => {
-    if (window.location.hash) {
-      if (select(window.location.hash)) {
-        scrollto(window.location.hash)
-      }
-    }
-  });
-
-  /**
-   * Preloader
-   */
-  let preloader = select('#preloader');
-  if (preloader) {
-    window.addEventListener('load', () => {
-      preloader.remove()
-    });
-  }
-
-  /**
-   * Porfolio isotope and filter
-   */
-  window.addEventListener('load', () => {
-    let portfolioContainer = select('.portfolio-container');
-    if (portfolioContainer) {
-      let portfolioIsotope = new Isotope(portfolioContainer, {
-        itemSelector: '.portfolio-item'
-      });
-
-      let portfolioFilters = select('#portfolio-flters li', true);
-
-      on('click', '#portfolio-flters li', function(e) {
-        e.preventDefault();
-        portfolioFilters.forEach(function(el) {
-          el.classList.remove('filter-active');
-        });
-        this.classList.add('filter-active');
-
-        portfolioIsotope.arrange({
-          filter: this.getAttribute('data-filter')
-        });
-        portfolioIsotope.on('arrangeComplete', function() {
-          AOS.refresh()
-        });
-      }, true);
-    }
-
-  });
-
-  /**
-   * Initiate portfolio lightbox 
-   */
-  const portfolioLightbox = GLightbox({
-    selector: '.portfolio-lightbox'
-  });
-
-  /**
-   * Portfolio details slider
-   */
-  new Swiper('.portfolio-details-slider', {
-    speed: 400,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
+  // Parallax Effect for Hero Video
+  gsap.to('.video-bg', {
+    scrollTrigger: {
+      trigger: '#hero',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: true
     },
-    pagination: {
-      el: '.swiper-pagination',
-      type: 'bullets',
-      clickable: true
-    }
+    yPercent: 50,
+    ease: 'none'
   });
 
-  /**
-   * Animation on scroll
-   */
-  window.addEventListener('load', () => {
-    AOS.init({
-      duration: 1000,
-      easing: 'ease-in-out',
-      once: true,
-      mirror: false
-    })
+  // About Section Reveal
+  gsap.from('.about-img', {
+    scrollTrigger: {
+      trigger: '.about',
+      start: 'top 80%',
+      end: 'bottom 20%',
+      toggleActions: 'play none none reverse'
+    },
+    x: -100,
+    opacity: 0,
+    duration: 1,
+    ease: 'power3.out'
   });
 
-})()
+  gsap.from('.about-content', {
+    scrollTrigger: {
+      trigger: '.about',
+      start: 'top 80%',
+      end: 'bottom 20%',
+      toggleActions: 'play none none reverse'
+    },
+    x: 100,
+    opacity: 0,
+    duration: 1,
+    delay: 0.2,
+    ease: 'power3.out'
+  });
+
+  // Cards Stagger Animation (Concepts & Elements)
+  const animateCards = (sectionId) => {
+    gsap.from(`${sectionId} .feature-card`, {
+      scrollTrigger: {
+        trigger: sectionId,
+        start: 'top 85%',
+        toggleActions: 'play none none reverse'
+      },
+      y: 100,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.2,
+      ease: 'power3.out'
+    });
+  };
+
+  animateCards('#concepts');
+  animateCards('#elements');
+
+  // Contact Form Animation
+  gsap.from('.php-email-form', {
+    scrollTrigger: {
+      trigger: '#contact',
+      start: 'top 80%',
+      toggleActions: 'play none none reverse'
+    },
+    y: 50,
+    opacity: 0,
+    duration: 1,
+    ease: 'power3.out'
+  });
+
+  // Parallax for Images with data-speed
+  gsap.utils.toArray('[data-speed]').forEach(el => {
+    gsap.to(el, {
+      y: (i, target) => -100 * target.dataset.speed,
+      ease: "none",
+      scrollTrigger: {
+        trigger: el,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 0
+      }
+    });
+  });
+
+})();
