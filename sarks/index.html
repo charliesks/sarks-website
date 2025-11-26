@@ -141,22 +141,19 @@
           <div class="feature-card">
             <div class="feature-icon"><i class="bx bx-world"></i></div>
             <h3>Tasks</h3>
-            <p>Tasks are the building blocks of a Pipeline and consist of sequentially executed steps. Each step
-              achieves a specific goal, such as building an image.</p>
+            <p>Tasks are the fundamental building blocks of a Pipeline. They consist of a sequence of steps that are executed in order. Each step runs in its own container and achieves a specific goal, such as compiling code, running tests, or building an image.</p>
           </div>
 
           <div class="feature-card">
             <div class="feature-icon"><i class="bx bx-layer"></i></div>
             <h3>Pipelines</h3>
-            <p>A Pipeline is a collection of Task resources arranged in a specific order of execution to accomplish a
-              specific goal.</p>
+            <p>A Pipeline is a collection of Task resources arranged in a specific order of execution. You can define dependencies between tasks, pass parameters, and share workspaces to create complex workflows that automate your entire software delivery process.</p>
           </div>
 
           <div class="feature-card">
             <div class="feature-icon"><i class="bx bx-bolt-circle"></i></div>
             <h3>Triggers</h3>
-            <p>Triggers capture external events, such as Git pull requests, and process them to extract key information
-              to start pipelines.</p>
+            <p>Triggers enable your pipelines to respond to external events. They capture events like Git push or pull requests, extract relevant information (like commit IDs), and automatically instantiate a new PipelineRun to process the changes.</p>
           </div>
         </div>
 
@@ -176,22 +173,19 @@
           <div class="feature-card">
             <div class="feature-icon"><i class="bx bx-run"></i></div>
             <h3>TaskRun</h3>
-            <p>Instantiates a Task for execution with specific inputs, outputs, and parameters on a cluster. Can be
-              invoked on its own or as part of a PipelineRun.</p>
+            <p>A TaskRun represents a single execution of a Task. It binds the Task to specific inputs, outputs, and execution parameters. You can create a TaskRun manually or it can be created automatically by a PipelineRun.</p>
           </div>
 
           <div class="feature-card">
             <div class="feature-icon"><i class="bx bx-play-circle"></i></div>
             <h3>PipelineRun</h3>
-            <p>The running instance of a pipeline. It instantiates a pipeline for execution with specific inputs,
-              outputs, and parameters.</p>
+            <p>A PipelineRun is the running instance of a Pipeline. It initiates the execution of all Tasks defined in the Pipeline, managing the order and passing data between them. It provides a record of the execution history.</p>
           </div>
 
           <div class="feature-card">
             <div class="feature-icon"><i class="bx bx-target-lock"></i></div>
             <h3>Trigger Resources</h3>
-            <p>Consists of TriggerTemplate, TriggerBinding, and EventListener to form a reusable, decoupled CI/CD
-              system.</p>
+            <p>The Trigger system consists of <strong>TriggerTemplates</strong> (blueprints for resources), <strong>TriggerBindings</strong> (extracting fields from events), and <strong>EventListeners</strong> (listening for events) to create a robust CI/CD automation.</p>
           </div>
         </div>
 
