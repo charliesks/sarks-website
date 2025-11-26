@@ -147,14 +147,17 @@
 
   // Cards Stagger Animation (Concepts & Elements)
   const animateCards = (sectionId) => {
+    // Ensure elements are visible if JS fails or before animation
+    gsap.set(`${sectionId} .feature-card`, { autoAlpha: 1 }); 
+    
     gsap.from(`${sectionId} .feature-card`, {
       scrollTrigger: {
         trigger: sectionId,
         start: 'top 85%',
         toggleActions: 'play none none reverse'
       },
-      y: 100,
-      opacity: 0,
+      y: 50,
+      autoAlpha: 0, // Use autoAlpha for better visibility handling
       duration: 0.8,
       stagger: 0.2,
       ease: 'power3.out'
