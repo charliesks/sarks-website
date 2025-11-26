@@ -5,19 +5,22 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>BMB</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+  <title>BMB - OpenShift Unleashed</title>
+  <meta content="Accelerating DevOps and Cloud Innovation with BMB" name="description">
+  <meta content="OpenShift, DevOps, Cloud, BMB" name="keywords">
 
-  <!-- Icons -->
+  <!-- Favicons -->
   <link href="assets/img/bmb.png" rel="icon">
-  <link href="assets/img/bmb.png" rel="icon2">
+  <link href="assets/img/bmb.png" rel="apple-touch-icon">
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;700;800&display=swap"
+    rel="stylesheet">
 
-  <!-- Other CSS Files -->
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
@@ -30,28 +33,13 @@
 
 <body>
 
-  <!-- ======= Top Bar ======= -->
-  <section id="topbar" class="d-flex align-items-center">
-    <div class="container d-flex justify-content-center justify-content-md-between">
-      <div class="contact-info d-flex align-items-center">
-        <i class="bi bi-envelope-fill"></i><a href="mailto:contact@example.com">support@bmbgroup.com</a>
-        <i class="bi bi-phone-fill phone-icon"></i> +961 5 428 636
-      </div>
-      <div class="social-links d-none d-md-block">
-        <a href="https://www.buymeacoffee.com/sarks"><i class="bx bx-coffee"></i></a>
-        <a href="https://sarks.org"><i class="bx bx-cloud"></i></a>
-        
-      </div>
-    </div>
-  </section>
-
   <!-- ======= Header ======= -->
   <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
       <h1 class="logo">
         <a href="index.html">
-          <img src="assets/img/bmbwhite.png" alt="BMB Logo" style="height: 40px;"> <!-- Adjust size as needed -->
+          <img src="assets/img/bmbwhite.png" alt="BMB Logo">
         </a>
       </h1>
 
@@ -59,10 +47,10 @@
         <ul>
           <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
           <li><a class="nav-link scrollto" href="#about">About</a></li>
-          <li><a class="nav-link scrollto" href="#services">Concepts</a></li>
-          <li><a class="nav-link scrollto" href="#pricing">Elements</a></li>
+          <li><a class="nav-link scrollto" href="#concepts">Concepts</a></li>
+          <li><a class="nav-link scrollto" href="#elements">Elements</a></li>
           <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-          <li><a class="nav-link scrollto" href="sarks-login.php">Login</a></li>
+          <li><a class="nav-link" href="sarks-login.php">Login</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav>
@@ -71,25 +59,23 @@
   </header><!-- End Header -->
 
   <!-- ======= Hero Section ======= -->
-
-  <div class="video-wrapper">
-    <video playsinline autoplay muted loop >
+  <section id="hero">
+    <video class="video-bg" playsinline autoplay muted loop>
       <source src="assets/img/connection-113368.mp4" type="video/mp4">
     </video>
-    <section id="hero" class="d-flex align-items-center">
-      <div class="container position-relative" data-aos="fade-up" data-aos-delay="500">
-        <h1 id="wave-title">
-          <span class="line">OpenShift Unleashed:</span><br>
-          <span class="line">Accelerating DevOps</span><br>
-          <span class="line">and Cloud Innovation</span><br>
-          <span class="line">With BMB</span>
-        </h1>
-        <a href="#pricing" class="btn-get-started scrollto">Get Started</a>
-      </div>
-      
-    </section><!-- End Hero -->
-  </div>
+    <div class="hero-overlay"></div>
 
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span class="d-block">OpenShift Unleashed</span>
+        <span class="text-gradient">Accelerating DevOps</span>
+      </h1>
+      <p class="hero-subtitle">
+        Empower your team with cloud innovation and seamless CI/CD pipelines.
+      </p>
+      <a href="#about" class="btn-hero scrollto">Discover More</a>
+    </div>
+  </section><!-- End Hero -->
 
   <main id="main">
 
@@ -97,150 +83,133 @@
     <section id="about" class="about">
       <div class="container">
 
-        <div class="row">
-          <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-left">
-            <img src="assets/img/openshift-pipelines.png" class="img-fluid" style="border-radius: 15px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);" alt="">
-          </div>
-          <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right">
-            <h3>What is OpenShift Pipelines?</h3>
-            <p class="fst-italic">
-              Red Hat OpenShift Pipelines is a cloud-native, continuous integration and continuous delivery (CI/CD) solution based on Kubernetes resources. It uses Tekton building blocks to automate deployments across multiple platforms by abstracting away the underlying implementation details. Tekton introduces a number of standard custom resource definitions (CRDs) for defining CI/CD pipelines that are portable across Kubernetes distributions. 
-            </p>
-          </div>
+        <div class="section-header">
+          <h2>What is OpenShift Pipelines?</h2>
+          <p>A cloud-native, continuous integration and continuous delivery (CI/CD) solution.</p>
         </div>
 
-      </div>
-    </section><!-- End About Section -->
-
-     <!-- ======= About Section ======= -->
-     <section id="about" class="about">
-      <div class="container">
-
-        <div class="row">
-          <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-left">
-            <img src="assets/img/openshift-pipelines-features.png" class="img-fluid" style="border-radius: 15px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);" alt="">
+        <div class="about-grid">
+          <div class="about-img" data-speed="0.8">
+            <img src="assets/img/openshift-pipelines.png" alt="OpenShift Pipelines">
           </div>
-          <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right">
-            <h3>What are the Key Features?</h3>
-            <ul>
-              <li><i class="bi bi-check-circle"></i> Red Hat OpenShift Pipelines is a serverless CI/CD system that runs pipelines with all the required dependencies in isolated containers.</li>
-              <li><i class="bi bi-check-circle"></i> Red Hat OpenShift Pipelines are designed for decentralized teams that work on microservice-based architecture.</li>
-              <li><i class="bi bi-check-circle"></i> Red Hat OpenShift Pipelines use standard CI/CD pipeline definitions that are easy to extend and integrate with the existing Kubernetes tools, enabling you to scale on-demand. </li>
-              <li><i class="bi bi-check-circle"></i> You can use Red Hat OpenShift Pipelines to build images with Kubernetes tools such as Source-to-Image (S2I), Buildah, Buildpacks, and Kaniko that are portable across any Kubernetes platform.</li>
-              <li><i class="bi bi-check-circle"></i> You can use the OpenShift Container Platform Developer console to create Tekton resources, view logs of pipeline runs, and manage pipelines in your OpenShift Container Platform namespaces.</li>
+          <div class="about-content">
+            <h3>Cloud-Native CI/CD</h3>
+            <p>
+              Red Hat OpenShift Pipelines is based on Kubernetes resources and uses Tekton building blocks to automate
+              deployments across multiple platforms. It abstracts away underlying implementation details, allowing for
+              portable pipeline definitions.
+            </p>
+            <ul class="check-list">
+              <li><i class="bi bi-check-circle-fill"></i> Serverless CI/CD system</li>
+              <li><i class="bi bi-check-circle-fill"></i> Isolated containers for dependencies</li>
+              <li><i class="bi bi-check-circle-fill"></i> Decentralized team support</li>
             </ul>
           </div>
         </div>
 
+        <div class="about-grid mt-5 pt-5">
+          <div class="about-content order-2 order-md-1">
+            <h3>Key Features</h3>
+            <p>
+              Designed for microservice-based architecture, OpenShift Pipelines use standard definitions that are easy
+              to extend and integrate with existing Kubernetes tools.
+            </p>
+            <ul class="check-list">
+              <li><i class="bi bi-check-circle-fill"></i> Scale on-demand with Kubernetes</li>
+              <li><i class="bi bi-check-circle-fill"></i> Build images with S2I, Buildah, Kaniko</li>
+              <li><i class="bi bi-check-circle-fill"></i> Full visibility via Developer Console</li>
+            </ul>
+          </div>
+          <div class="about-img order-1 order-md-2" data-speed="1.1">
+            <img src="assets/img/openshift-pipelines-features.png" alt="Features">
+          </div>
+        </div>
+
       </div>
     </section><!-- End About Section -->
 
-    <!-- ======= Services Section ======= -->
-    <section id="services" class="services">
+    <!-- ======= Concepts Section ======= -->
+    <section id="concepts" class="concepts">
       <div class="container">
 
-        <div class="section-title">
-          <span>Concepts</span>
-          <h2>Concepts</h2>
-          <p>Here is what makes OpenShift Pipelines .</p>
+        <div class="section-header">
+          <h2>Core Concepts</h2>
+          <p>Understanding the building blocks of OpenShift Pipelines.</p>
         </div>
 
-        <div class="row">
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bx-world"></i></div>
-              <h4><a href="">Tasks</a></h4>
-              <p>Tasks are the building blocks of a Pipeline and consists of sequentially executed steps.</p>
-              <p>Steps are a series of commands that are sequentially executed by the Task and achieve a specific goal, such as building an image.</p>
-            </div>
+        <div class="card-grid">
+          <div class="feature-card">
+            <div class="feature-icon"><i class="bx bx-world"></i></div>
+            <h3>Tasks</h3>
+            <p>Tasks are the building blocks of a Pipeline and consist of sequentially executed steps. Each step
+              achieves a specific goal, such as building an image.</p>
           </div>
 
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="fade-up" data-aos-delay="150">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bx-block"></i></div>
-              <h4><a href="">Pipelines</a></h4>
-              <p>A Pipeline is a collection of Task resources arranged in a specific order of execution.</p>
-              <p>A Pipeline resource definition consists of a number of fields or attributes, which together enable the pipeline to accomplish a specific goal.</p>
-            </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="bx bx-layer"></i></div>
+            <h3>Pipelines</h3>
+            <p>A Pipeline is a collection of Task resources arranged in a specific order of execution to accomplish a
+              specific goal.</p>
           </div>
 
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bx-lock"></i></div>
-              <h4><a href="">Triggers</a></h4>
-              <p>Triggers in conjunction with pipelines create a full-fledged CI/CD system where Kubernetes resources define the entire CI/CD execution.</p>
-              <p>Triggers capture the external events, such as a Git pull request, and process them to extract key pieces of information.</p>
-            </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="bx bx-bolt-circle"></i></div>
+            <h3>Triggers</h3>
+            <p>Triggers capture external events, such as Git pull requests, and process them to extract key information
+              to start pipelines.</p>
           </div>
         </div>
 
       </div>
-    </section><!-- End Services Section -->
+    </section><!-- End Concepts Section -->
 
-    <!-- ======= Pricing Section ======= -->
-    <section id="pricing" class="pricing">
+    <!-- ======= Elements Section ======= -->
+    <section id="elements" class="elements">
       <div class="container">
 
-        <div class="section-title">
-          <span>Elements</span>
-          <h2>Elements</h2>
-          <p>Behind the Scenes of Pipelines</p>
+        <div class="section-header">
+          <h2>Pipeline Elements</h2>
+          <p>Behind the scenes of execution.</p>
         </div>
 
-        <div class="row">
-
-          <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="150">
-            <div class="box">
-              <h3>TaskRun</h3>
-              <ul>
-                <li>A TaskRun instantiates a Task for execution with specific inputs, outputs, and execution parameters on a cluster.</li>
-                <li>It can be invoked on its own or as part of a PipelineRun for each Task in a pipeline.</li>
-              </ul>
-            </div>
+        <div class="card-grid">
+          <div class="feature-card">
+            <div class="feature-icon"><i class="bx bx-run"></i></div>
+            <h3>TaskRun</h3>
+            <p>Instantiates a Task for execution with specific inputs, outputs, and parameters on a cluster. Can be
+              invoked on its own or as part of a PipelineRun.</p>
           </div>
 
-          <div class="col-lg-4 col-md-6 mt-4 mt-md-0" data-aos="zoom-in">
-            <div class="box featured">
-              <h3>PipelineRun</h3>
-              <ul>
-                <li>A pipeline run is the running instance of a pipeline.</li>
-                <li>It instantiates a pipeline for execution with specific inputs, outputs, and execution parameters on a cluster.</li>
-              </ul>
-            </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="bx bx-play-circle"></i></div>
+            <h3>PipelineRun</h3>
+            <p>The running instance of a pipeline. It instantiates a pipeline for execution with specific inputs,
+              outputs, and parameters.</p>
           </div>
 
-          <div class="col-lg-4 col-md-6 mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="150">
-            <div class="box">
-              <h3>Triggers</h3>
-              <ul>
-                <li>Triggers consist of the following main resources that work together to form a reusable, decoupled, and self-sustaining CI/CD system:</li>
-                <li>TriggerTemplate</li>
-                <li>TriggerBinding</li>
-                <li>EventListener</li>
-              </ul>
-            </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="bx bx-target-lock"></i></div>
+            <h3>Trigger Resources</h3>
+            <p>Consists of TriggerTemplate, TriggerBinding, and EventListener to form a reusable, decoupled CI/CD
+              system.</p>
           </div>
-
         </div>
 
       </div>
-    </section><!-- End Pricing Section -->
+    </section><!-- End Elements Section -->
 
-    
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">
       <div class="container">
 
-        <div class="section-title">
-          <span>Contact</span>
-          <h2>Contact</h2>
-          <p>Send us a message.</p>
+        <div class="section-header">
+          <h2>Contact Us</h2>
+          <p>Get in touch with our team.</p>
         </div>
 
-        <div class="container" data-aos="fade-up">
-
-          <div class="col-lg-12">
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <form action="forms/contact.php" method="post" role="form" class="php-email-form glass-panel p-4">
               <div class="row">
                 <div class="col-md-6 form-group">
                   <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
@@ -260,10 +229,9 @@
                 <div class="error-message"></div>
                 <div class="sent-message">Your message has been sent. Thank you!</div>
               </div>
-              <div class="text-center"><button type="submit">Send Message</button></div>
+              <div class="text-center"><button type="submit" class="btn-hero">Send Message</button></div>
             </form>
           </div>
-
         </div>
 
       </div>
@@ -273,100 +241,67 @@
 
   <!-- ======= Footer ======= -->
   <footer id="footer">
-    <div class="footer-top">
-      <div class="container">
-        <div class="row">
-
-          <div class="col-lg-4 col-md-6">
-            <div class="footer-info">
-              <h3>BMB</h3>
-              <p>
-                2nd floor, Dynagraph Building, Jisr Al Basha Street <br>
-                Hazmieh, Lebanon<br><br>
-                <strong>Phone:</strong> +961 5 428 636<br>
-                <strong>Email:</strong> support@bmbgroup.com<br>
-              </p>
-              <div class="social-links mt-3">
-                <a href="https://bmbgroup.com"><i class="bx bx-coffee"></i></a>
-                <a href="https://bmbgroup.com"><i class="bx bx-cloud"></i></a>
-              </div>
-            </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-6 footer-info">
+          <h3>BMB</h3>
+          <p>
+            2nd floor, Dynagraph Building<br>
+            Jisr Al Basha Street, Hazmieh, Lebanon<br><br>
+            <strong>Phone:</strong> +961 5 428 636<br>
+            <strong>Email:</strong> support@bmbgroup.com<br>
+          </p>
+          <div class="social-links mt-3">
+            <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+            <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+            <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+            <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
           </div>
+        </div>
 
-          <div class="col-lg-2 col-md-6 footer-links">
-            <h4>Useful Links</h4>
-            <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#hero">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#about">About us</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#services">Services</a></li>
-              
-            </ul>
-          </div>
+        <div class="col-lg-2 col-md-6 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><i class="bx bx-chevron-right"></i> <a href="#hero">Home</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="#about">About us</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="#concepts">Concepts</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="#elements">Elements</a></li>
+          </ul>
+        </div>
 
-          <div class="col-lg-2 col-md-6 footer-links">
-            <h4>Concepts</h4>
-            <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#services">Tasks</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#services">Pipelines</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#services">Triggers</a></li>
-              
-            </ul>
-          </div>
+        <div class="col-lg-2 col-md-6 footer-links">
+          <h4>Our Services</h4>
+          <ul>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
+          </ul>
+        </div>
 
-          <div class="col-lg-4 col-md-6 footer-newsletter">
-            <h4>Our Newsletter</h4>
-            <p>Please Subscribe to receive our Newsletter</p>
-            <form action="" method="post">
-              <input type="email" name="email"><input type="submit" value="Subscribe">
-            </form>
-
-          </div>
-
+        <div class="col-lg-4 col-md-6 footer-newsletter">
+          <h4>Our Newsletter</h4>
+          <p>Subscribe to our newsletter to receive the latest updates.</p>
+          <form action="" method="post">
+            <input type="email" name="email"><input type="submit" value="Subscribe">
+          </form>
         </div>
       </div>
-    </div>
 
-    <div class="container">
       <div class="copyright">
         &copy; Copyright <strong><span>BMB</span></strong>. All Rights Reserved
-      </div>
-      <div class="credits">
-        Designed by <a href="https://bmbgroup.com">Charbel Sarkis</a>
       </div>
     </div>
   </footer><!-- End Footer -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Other JS Files -->
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const lines = document.querySelectorAll('#wave-title .line');
-    
-      lines.forEach(line => {
-        const text = line.textContent;
-        line.innerHTML = "";
-    
-        [...text].forEach((char, index) => {
-          const span = document.createElement("span");
-          span.textContent = char;
-    
-          // preserve spaces with width
-          if (char === " ") {
-            span.style.width = "0.5em";
-          }
-    
-          span.style.display = "inline-block";
-          span.style.animation = `wave-color 2s infinite`;
-          span.style.animationDelay = `${index * 0.1}s`;
-    
-          line.appendChild(span);
-        });
-      });
-    });
-    </script>    
-  <script src="assets/vendor/aos/aos.js"></script>
+  <!-- GSAP Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
