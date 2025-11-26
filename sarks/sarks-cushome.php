@@ -27,77 +27,95 @@ $stmt->close();
 $conn->close();
 ?>
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>BMB - Dashboard</title>
 
-    <!-- Icons -->
-    <link href="assets/img/bmbwhite.png" rel="icon">
+    <title>Dashboard - BMB</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
 
-    <!-- Fonts & Styles -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Poppins" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <!-- Favicons -->
+    <link href="assets/img/bmb.png" rel="icon">
+    <link href="assets/img/bmb.png" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Poppins" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet">
 </head>
 
 <body>
 
-    <!-- Header -->
+    <!-- ======= Header ======= -->
     <header id="header" class="d-flex align-items-center">
         <div class="container d-flex align-items-center justify-content-between">
-            <h1 class="logo"><a href="index.html">BMB</a></h1>
+
+            <h1 class="logo">
+                <a href="index.html">
+                    <img src="assets/img/bmbwhite.png" alt="BMB Logo">
+                </a>
+            </h1>
+
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a class="nav-link scrollto" href="sarks-cushome.php">Dashboard</a></li>
+                    <li><a class="nav-link scrollto active" href="sarks-cushome.php">Dashboard</a></li>
                     <li><a class="nav-link scrollto" href="sarks-logout.php">Logout</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav>
+
         </div>
-    </header>
+    </header><!-- End Header -->
 
-    <!-- Dashboard Section -->
-    <section id="services" class="services">
-        <div class="container">
-            <div class="section-title">
-                <span>Dashboard</span>
-                <h2>Dashboard</h2>
-                <p>Here is what we can do for you.</p>
-            </div>
+    <main id="main">
 
-            <div class="row">
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up">
-                    <div class="icon-box">
-                        <div class="icon"><i class="bx bx-cart-add"></i></div>
-                        <h4><a href="cart/index.php">Browse Products</a></h4>
+        <!-- ======= Dashboard Section ======= -->
+        <section id="dashboard" class="d-flex align-items-center" style="min-height: 100vh; padding-top: 80px;">
+            <div class="container">
+
+                <div class="section-header">
+                    <h2>Dashboard</h2>
+                    <p>Welcome back, <?php echo htmlspecialchars($_SESSION["uname"]); ?></p>
+                </div>
+
+                <div class="card-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="bx bx-cart-add"></i></div>
+                        <h3><a href="cart/index.php" class="stretched-link">Browse Products</a></h3>
                         <p>Check the list of available products in our store.</p>
                     </div>
-                </div>
 
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="fade-up" data-aos-delay="150">
-                    <div class="icon-box">
-                        <div class="icon"><i class="bx bx-user-circle"></i></div>
-                        <h4><a href="sarks-cupanel.php">Account Details</a></h4>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="bx bx-user-circle"></i></div>
+                        <h3><a href="sarks-cupanel.php" class="stretched-link">Account Details</a></h3>
                         <p>Manage and review your existing profile information.</p>
                     </div>
-                </div>
 
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
-                    <div class="icon-box">
-                        <div class="icon"><i class="bx bx-cart"></i></div>
-                        <h4><a href="cart/index.php">Cart</a></h4>
-                        <p>Check and manage your current selected products in your cart</p>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="bx bx-cart"></i></div>
+                        <h3><a href="cart/index.php" class="stretched-link">View Cart</a></h3>
+                        <p>Check and manage your current selected products.</p>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Footer -->
+            </div>
+        </section>
+
+    </main><!-- End #main -->
+
+    <!-- ======= Footer ======= -->
     <footer id="footer">
         <div class="container">
             <div class="copyright">
@@ -107,11 +125,35 @@ $conn->close();
                 Designed by <a href="https://bmbgroup.com">Charbel Sarkis</a>
             </div>
         </div>
-    </footer>
+    </footer><!-- End Footer -->
 
-    <!-- Scripts -->
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- GSAP Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Vendor JS Files -->
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
 
+    <script>
+        // Animate dashboard cards
+        gsap.from(".feature-card", {
+            duration: 0.8,
+            y: 50,
+            opacity: 0,
+            stagger: 0.2,
+            ease: "power3.out",
+            delay: 0.2
+        });
+    </script>
+
 </body>
+
 </html>
