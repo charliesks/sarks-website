@@ -188,4 +188,40 @@
     });
   });
 
+  // Background Music Control
+  const bgMusic = select('#bg-music');
+  const musicToggle = select('#music-toggle');
+  const musicIcon = select('#music-toggle i');
+
+  if (bgMusic && musicToggle) {
+    // Try to play on load (might be blocked by browser)
+    bgMusic.volume = 0.5;
+    const playPromise = bgMusic.play();
+
+    if (playPromise !== undefined) {
+      playPromise.then(_ => {
+        // Autoplay started!
+        musicIcon.classList.remove('bi-volume-mute-fill');
+        musicIcon.classList.add('bi-volume-up-fill');
+      }).catch(error => {
+        // Autoplay was prevented.
+        // Show muted UI.
+        musicIcon.classList.remove('bi-volume-up-fill');
+        musicIcon.classList.add('bi-volume-mute-fill');
+      });
+    }
+
+    on('click', '#music-toggle', function(e) {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        musicIcon.classList.remove('bi-volume-mute-fill');
+        musicIcon.classList.add('bi-volume-up-fill');
+      } else {
+        bgMusic.pause();
+        musicIcon.classList.remove('bi-volume-up-fill');
+        musicIcon.classList.add('bi-volume-mute-fill');
+      }
+    });
+  }
+
 })();
