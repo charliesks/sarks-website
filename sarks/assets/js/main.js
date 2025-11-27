@@ -97,12 +97,6 @@
       opacity: 0,
       duration: 1,
       ease: 'power3.out'
-    }, '-=0.5')
-    .from('.btn-hero', {
-      y: 50,
-      opacity: 0,
-      duration: 0.8,
-      ease: 'back.out(1.7)'
     }, '-=0.5');
 
   // Parallax Effect for Hero Video
