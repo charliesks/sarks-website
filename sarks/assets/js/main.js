@@ -97,12 +97,6 @@
       opacity: 0,
       duration: 1,
       ease: 'power3.out'
-    }, '-=0.5')
-    .from('.btn-hero', {
-      y: 50,
-      opacity: 0,
-      duration: 0.8,
-      ease: 'back.out(1.7)'
     }, '-=0.5');
 
   // Parallax Effect for Hero Video
@@ -147,14 +141,17 @@
 
   // Cards Stagger Animation (Concepts & Elements)
   const animateCards = (sectionId) => {
+    // Ensure elements are visible if JS fails or before animation
+    gsap.set(`${sectionId} .feature-card`, { autoAlpha: 1 }); 
+    
     gsap.from(`${sectionId} .feature-card`, {
       scrollTrigger: {
         trigger: sectionId,
         start: 'top 85%',
         toggleActions: 'play none none reverse'
       },
-      y: 100,
-      opacity: 0,
+      y: 50,
+      autoAlpha: 0, // Use autoAlpha for better visibility handling
       duration: 0.8,
       stagger: 0.2,
       ease: 'power3.out'
@@ -190,5 +187,43 @@
       }
     });
   });
+
+  // Background Music Control
+  const bgMusic = select('#bg-music');
+  const musicToggle = select('#music-toggle');
+  const musicIcon = select('#music-toggle i');
+
+  if (bgMusic && musicToggle) {
+    // Try to play on load (might be blocked by browser)
+    bgMusic.muted = false;
+    bgMusic.volume = 0.5;
+    const playPromise = bgMusic.play();
+
+    if (playPromise !== undefined) {
+      playPromise.then(_ => {
+        // Autoplay started!
+        musicIcon.classList.remove('bi-volume-mute-fill');
+        musicIcon.classList.add('bi-volume-up-fill');
+      }).catch(error => {
+        // Autoplay was prevented.
+        // Show muted UI.
+        console.log("Autoplay prevented:", error);
+        musicIcon.classList.remove('bi-volume-up-fill');
+        musicIcon.classList.add('bi-volume-mute-fill');
+      });
+    }
+
+    on('click', '#music-toggle', function(e) {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        musicIcon.classList.remove('bi-volume-mute-fill');
+        musicIcon.classList.add('bi-volume-up-fill');
+      } else {
+        bgMusic.pause();
+        musicIcon.classList.remove('bi-volume-up-fill');
+        musicIcon.classList.add('bi-volume-mute-fill');
+      }
+    });
+  }
 
 })();

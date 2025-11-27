@@ -61,28 +61,47 @@ $conn->close();
 ?>
 
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>BMB - Account Panel</title>
 
-    <!-- Icons -->
-    <link href="assets/img/bmbwhite.png" rel="icon">
+    <title>Account Panel - BMB</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
 
-    <!-- Fonts & Styles -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Poppins" rel="stylesheet">
+    <!-- Favicons -->
+    <link href="assets/img/bmb.png" rel="icon">
+    <link href="assets/img/bmb.png" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Poppins" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet">
 </head>
 
 <body>
 
-    <!-- Header -->
+    <!-- ======= Header ======= -->
     <header id="header" class="d-flex align-items-center">
         <div class="container d-flex align-items-center justify-content-between">
-            <h1 class="logo"><a href="index.html">BMB</a></h1>
+
+            <h1 class="logo">
+                <a href="index.html">
+                    <img src="assets/img/bmbwhite.png" alt="BMB Logo">
+                </a>
+            </h1>
+
             <nav id="navbar" class="navbar">
                 <ul>
                     <li><a class="nav-link scrollto" href="sarks-cushome.php">Dashboard</a></li>
@@ -90,55 +109,70 @@ $conn->close();
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav>
+
         </div>
-    </header>
+    </header><!-- End Header -->
 
-    <!-- Account Details Section -->
-    <section id="services" class="services">
-        <div class="container">
-            <div class="section-title">
-                <span>Account Details</span>
-                <h2>Account Details</h2>
-            </div>
+    <main id="main">
 
-            <form class="col-lg-12 col-md-6 align-items-stretch mt-4 mt-md-0" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <div class="icon-box">
-                    <div class="icon"><i class="bx bx-user-check"></i></div>
+        <!-- ======= Account Panel Section ======= -->
+        <section id="account" class="d-flex align-items-center" style="min-height: 100vh; padding-top: 80px;">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-md-10">
+                        <div class="glass-panel p-5" data-aos="fade-up">
+                            <div class="section-header mb-4">
+                                <h2>Account Details</h2>
+                                <p>Update your profile information</p>
+                            </div>
 
-                    <div class="form-group center">
-                        <label for="user">Username:</label>
-                        <input type="text" class="form-control" id="user" name="uname" value="<?php echo htmlspecialchars($cuname); ?>" required>
-                    </div><br>
+                            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="php-email-form">
+                                <div class="row">
+                                    <div class="col-md-6 form-group mb-3">
+                                        <label for="user" class="mb-2 text-white">Username</label>
+                                        <input type="text" class="form-control" id="user" name="uname" value="<?php echo htmlspecialchars($cuname); ?>" required style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;">
+                                    </div>
 
-                    <div class="form-group center">
-                        <label for="email">Email:</label>
-                        <input type="email" class="form-control" id="email" name="uemail" value="<?php echo htmlspecialchars($cuemail); ?>" required>
-                    </div><br>
+                                    <div class="col-md-6 form-group mb-3">
+                                        <label for="email" class="mb-2 text-white">Email</label>
+                                        <input type="email" class="form-control" id="email" name="uemail" value="<?php echo htmlspecialchars($cuemail); ?>" required style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;">
+                                    </div>
+                                </div>
 
-                    <div class="form-group">
-                        <label for="pwd">New Password (optional):</label>
-                        <input type="password" class="form-control" id="pwd" name="upass" placeholder="Leave blank to keep current password">
-                    </div><br>
+                                <div class="row">
+                                    <div class="col-md-6 form-group mb-3">
+                                        <label for="mbl" class="mb-2 text-white">Mobile</label>
+                                        <input type="text" class="form-control" id="mbl" name="umobile" value="<?php echo htmlspecialchars($cumobile); ?>" required style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;">
+                                    </div>
 
-                    <div class="form-group">
-                        <label for="mbl">Mobile:</label>
-                        <input type="text" class="form-control" id="mbl" name="umobile" value="<?php echo htmlspecialchars($cumobile); ?>" required>
-                    </div><br>
+                                    <div class="col-md-6 form-group mb-3">
+                                        <label for="pwd" class="mb-2 text-white">New Password (optional)</label>
+                                        <input type="password" class="form-control" id="pwd" name="upass" placeholder="Leave blank to keep current" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;">
+                                    </div>
+                                </div>
 
-                    <div class="form-group">
-                        <label for="adrs">Address:</label>
-                        <input type="text" class="form-control" id="adrs" name="uaddress" value="<?php echo htmlspecialchars($cuadd); ?>" required>
-                    </div><br>
+                                <div class="form-group mb-4">
+                                    <label for="adrs" class="mb-2 text-white">Address</label>
+                                    <input type="text" class="form-control" id="adrs" name="uaddress" value="<?php echo htmlspecialchars($cuadd); ?>" required style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;">
+                                </div>
 
-                    <button type="submit" class="btn btn-primary">Update Info!</button>
-                    <br><br>
-                    <a href="sarks-login.php">Go back to Login</a>
+                                <div class="text-center">
+                                    <button type="submit" class="btn-hero w-100 mb-3">Update Info</button>
+                                </div>
+
+                                <div class="text-center mt-3">
+                                    <a href="sarks-cushome.php" class="text-primary">Cancel</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </form>
-        </div>
-    </section>
+            </div>
+        </section>
 
-    <!-- Footer -->
+    </main><!-- End #main -->
+
+    <!-- ======= Footer ======= -->
     <footer id="footer">
         <div class="container">
             <div class="copyright">
@@ -148,11 +182,34 @@ $conn->close();
                 Designed by <a href="https://bmbgroup.com">Charbel Sarkis</a>
             </div>
         </div>
-    </footer>
+    </footer><!-- End Footer -->
 
-    <!-- Scripts -->
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- GSAP Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Vendor JS Files -->
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
 
+    <script>
+        // Simple animation for the panel
+        gsap.from(".glass-panel", {
+            duration: 1,
+            y: 50,
+            opacity: 0,
+            ease: "power3.out",
+            delay: 0.2
+        });
+    </script>
+
 </body>
+
 </html>
