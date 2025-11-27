@@ -195,6 +195,7 @@
 
   if (bgMusic && musicToggle) {
     // Try to play on load (might be blocked by browser)
+    bgMusic.muted = false;
     bgMusic.volume = 0.5;
     const playPromise = bgMusic.play();
 
@@ -206,6 +207,7 @@
       }).catch(error => {
         // Autoplay was prevented.
         // Show muted UI.
+        console.log("Autoplay prevented:", error);
         musicIcon.classList.remove('bi-volume-up-fill');
         musicIcon.classList.add('bi-volume-mute-fill');
       });
