@@ -13,7 +13,7 @@ $contact->ajax = true;
 
 // reCAPTCHA v3 Validation
 if (isset($_POST['recaptcha-response']) && !empty($_POST['recaptcha-response'])) {
-  $secret = '6LessB0iAAAAAPSQf18mgiIHPRpZf22T-ZXK8c14;
+  $secret = '6LessB0iAAAAAPSQf18mgiIHPRpZf22T-ZXK8c14';
   $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $_POST['recaptcha-response']);
   $responseData = json_decode($verifyResponse);
 
