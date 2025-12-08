@@ -241,6 +241,7 @@ h6 {
   letter-spacing: 1px;
   box-shadow: var(--shadow-glow);
   transition: var(--transition-smooth);
+  border: 0;
 }
 
 .btn-hero:hover {

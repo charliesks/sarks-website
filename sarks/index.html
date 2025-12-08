@@ -210,7 +210,7 @@
 
         <div class="row justify-content-center">
           <div class="col-lg-8">
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form glass-panel p-4">
+            <form action="forms/contact.php" method="post" role="form" class="php-email-form glass-panel p-4" data-recaptcha-site-key="6LessB0iAAAAAMlxwDmGOk06_0dbJpLyKku38b86">
               <div class="row">
                 <div class="col-md-6 form-group">
                   <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
@@ -313,16 +313,6 @@
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
   <script src="https://www.google.com/recaptcha/api.js?render=6LessB0iAAAAAMlxwDmGOk06_0dbJpLyKku38b86"></script>
-  <script>
-    grecaptcha.ready(function () {
-      grecaptcha.execute('6LessB0iAAAAAMlxwDmGOk06_0dbJpLyKku38b86', { action: 'submit' }).then(function (token) {
-        var recaptchaResponse = document.getElementById('recaptchaResponse');
-        if(recaptchaResponse) {
-          recaptchaResponse.value = token;
-        }
-      });
-    });
-  </script>
 
 </body>
 
