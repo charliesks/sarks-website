@@ -1,6 +1,6 @@
 services:
   apache1:
-    image: quay.io/csarkis/bmb-website:latest
+    image: quay.io/csarkis/sarks-website:latest
     restart: unless-stopped
     cpus: "0.15"
     mem_limit: 512m
@@ -20,7 +20,7 @@ services:
     networks: [sarks_network]
 
   apache2:
-    image: quay.io/csarkis/bmb-website:latest
+    image: quay.io/csarkis/sarks-website:latest
     restart: unless-stopped
     cpus: "0.15"
     mem_limit: 512m
@@ -40,7 +40,7 @@ services:
     networks: [sarks_network]
 
   apache3:
-    image: quay.io/csarkis/bmb-website:latest
+    image: quay.io/csarkis/sarks-website:latest
     restart: unless-stopped
     cpus: "0.15"
     mem_limit: 512m
