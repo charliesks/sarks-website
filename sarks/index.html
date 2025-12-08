@@ -230,6 +230,7 @@
                 <div class="error-message"></div>
                 <div class="sent-message">Your message has been sent. Thank you!</div>
               </div>
+              <input type="hidden" name="recaptcha-response" id="recaptchaResponse">
               <div class="text-center"><button type="submit" class="btn-hero">Send Message</button></div>
             </form>
           </div>
@@ -311,6 +312,17 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script src="https://www.google.com/recaptcha/api.js?render=6LessB0iAAAAAMlxwDmGOk06_0dbJpLyKku38b86"></script>
+  <script>
+    grecaptcha.ready(function () {
+      grecaptcha.execute('6LessB0iAAAAAMlxwDmGOk06_0dbJpLyKku38b86', { action: 'submit' }).then(function (token) {
+        var recaptchaResponse = document.getElementById('recaptchaResponse');
+        if(recaptchaResponse) {
+          recaptchaResponse.value = token;
+        }
+      });
+    });
+  </script>
 
 </body>
 
