@@ -58,17 +58,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Sign Up - BMB</title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
+    <title>Sarks</title>
+    <meta content="Containing Threats at Light Speed" name="description">
+    <meta content="Sinkhole, Ad Blocking, Malware Protection" name="keywords">
 
     <!-- Favicons -->
-    <link href="assets/img/bmb.png" rel="icon">
-    <link href="assets/img/bmb.png" rel="apple-touch-icon">
+    <link href="assets/img/sarks-blackhole.png" rel="icon">
+    <link href="assets/img/sarks-blackhole.png" rel="apple-touch-icon">
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Poppins" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -89,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <h1 class="logo">
                 <a href="index.html">
-                    <img src="assets/img/bmbwhite.png" alt="BMB Logo">
+                    <img src="assets/img/sarks-red.png" alt="Sarks Logo">
                 </a>
             </h1>
 
@@ -103,6 +106,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <li><a class="nav-link" href="sarks-login.php">Login</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
+                <button id="music-toggle" class="music-btn">
+                    <i class="bi bi-volume-mute-fill"></i>
+                </button>
+                <audio id="bg-music" loop autoplay>
+                    <source src="assets/audio/background.mp3" type="audio/mpeg">
+                </audio>
             </nav>
 
         </div>
@@ -171,18 +180,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 col-md-6 footer-info">
-                    <h3>BMB</h3>
+                    <h3>Sarks</h3>
                     <p>
-                        2nd floor, Dynagraph Building<br>
+                        1st floor, Building 95<br>
                         Jisr Al Basha Street, Hazmieh, Lebanon<br><br>
-                        <strong>Phone:</strong> +961 5 428 636<br>
-                        <strong>Email:</strong> support@bmbgroup.com<br>
+                        <strong>Phone:</strong> +961 03 597 498<br>
+                        <strong>Email:</strong> support@sarks.org<br>
                     </p>
                     <div class="social-links mt-3">
-                        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-                        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-                        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-                        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                        <!--<a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+            <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+            <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>-->
+                        <a href="https://www.linkedin.com/in/charbel-sarkis/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
                     </div>
                 </div>
 
@@ -199,10 +208,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="col-lg-2 col-md-6 footer-links">
                     <h4>Our Services</h4>
                     <ul>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="https://www.linkedin.com/in/charbel-sarkis/">Web Design</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="https://www.linkedin.com/in/charbel-sarkis/">Web Development</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="https://www.linkedin.com/in/charbel-sarkis/">IT Security</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="https://www.linkedin.com/in/charbel-sarkis/">IT Support & Outsourcing</a></li>
                     </ul>
                 </div>
 
@@ -216,7 +225,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="copyright">
-                &copy; Copyright <strong><span>BMB</span></strong>. All Rights Reserved
+                &copy; Copyright <strong><span>Sarks</span></strong>. All Rights Reserved
             </div>
         </div>
     </footer><!-- End Footer -->
@@ -236,6 +245,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LessB0iAAAAAMlxwDmGOk06_0dbJpLyKku38b86"></script>
 
     <script>
         // Simple animation for the signup card
