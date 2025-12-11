@@ -83,7 +83,7 @@ services:
       - mysql_data:/var/lib/mysql
       - ./sarksdb:/docker-entrypoint-initdb.d
     ports:
-      - "3307:3306"
+      - "3306:3306"
     networks: [sarks_network]
 
   phpmyadmin:
