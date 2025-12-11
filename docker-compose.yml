@@ -18,10 +18,13 @@ services:
     depends_on:
       - mysql
     environment:
-      MYSQL_HOST: sarks_mysql
+      MYSQL_HOST: host.docker.internal
+      MYSQL_PORT: 3306
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks: [sarks_network]
 
   apache2:
@@ -43,10 +46,13 @@ services:
     depends_on:
       - mysql
     environment:
-      MYSQL_HOST: sarks_mysql
+      MYSQL_HOST: host.docker.internal
+      MYSQL_PORT: 3306
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks: [sarks_network]
 
   apache3:
@@ -68,10 +74,13 @@ services:
     depends_on:
       - mysql
     environment:
-      MYSQL_HOST: sarks_mysql
+      MYSQL_HOST: host.docker.internal
+      MYSQL_PORT: 3306
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks: [sarks_network]
 
   mysql:
@@ -117,9 +126,11 @@ services:
     environment:
       PUID: 1000
       PGID: 1000
-      PMA_HOST: sarks_mysql
+      PMA_HOST: host.docker.internal
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "8088:80"
     depends_on: [mysql]
