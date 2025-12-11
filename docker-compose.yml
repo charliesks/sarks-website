@@ -23,7 +23,9 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
-    networks: [sarks_network]
+    networks: 
+      sarks_network:
+        ipv4_address: 10.200.0.2
 
   apache2:
     image: quay.io/csarkis/sarks-website:latest
@@ -49,7 +51,9 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
-    networks: [sarks_network]
+    networks: 
+      sarks_network:
+        ipv4_address: 10.200.0.3
 
   apache3:
     image: quay.io/csarkis/sarks-website:latest
@@ -75,7 +79,9 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
-    networks: [sarks_network]
+    networks: 
+      sarks_network:
+        ipv4_address: 10.200.0.4
 
   mysql:
     image: mysql:8.0
@@ -102,7 +108,9 @@ services:
       - ./sarksdb:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
-    networks: [sarks_network]
+    networks: 
+      sarks_network:
+        ipv4_address: 10.200.0.10
 
   phpmyadmin:
     image: lscr.io/linuxserver/phpmyadmin:latest
@@ -126,10 +134,13 @@ services:
     ports:
       - "8088:80"
     depends_on: [mysql]
-    networks: [sarks_network]
+    networks: 
+      sarks_network:
+        ipv4_address: 10.200.0.11
 
-networks:
+networks: 
   sarks_network:
+    external: true
 
 volumes:
   mysql_data:
