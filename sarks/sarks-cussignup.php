@@ -48,7 +48,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt1->close();
     } catch (Exception $e) {
         mysqli_rollback($conn); // Rollback transaction if an error occurs
-        $error_msg = "Registration failed: " . $e->getMessage();
+        if ($conn->errno == 1062) {
+            $error_msg = "Registration failed: Username or Email already exists.";
+        } else {
+            $error_msg = "Registration failed: " . $e->getMessage();
+        }
     }
 
     $conn->close();
