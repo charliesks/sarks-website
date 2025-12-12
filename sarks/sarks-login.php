@@ -5,6 +5,10 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 require_once __DIR__ . '/includes/connection.php'; // central DB connection
 
+
+$error_msg = "";
+$success_msg = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["uname"];
     $password = $_POST["upass"];
@@ -27,10 +31,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: sarks-cushome.php"); // Redirect to dashboard
             exit();
         } else {
-            echo "<script>alert('Incorrect username or password!');</script>";
+            $error_msg = "Incorrect username or password!";
         }
     } else {
-        echo "<script>alert('Incorrect username or password!');</script>";
+        $error_msg = "Incorrect username or password!";
     }
 
     $stmt->close();
@@ -111,6 +115,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <h2>Login</h2>
                                 <p>Access your dashboard</p>
                             </div>
+
+                            <?php if (!empty($error_msg)): ?>
+                                <div class="alert alert-danger text-center mb-4" role="alert" style="background: rgba(220, 53, 69, 0.1); border: 1px solid rgba(220, 53, 69, 0.2); color: #ff6b6b; backdrop-filter: blur(5px);">
+                                    <?php echo $error_msg; ?>
+                                </div>
+                            <?php endif; ?>
 
                             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                                 <div class="form-group mb-3">

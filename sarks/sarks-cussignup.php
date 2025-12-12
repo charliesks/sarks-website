@@ -2,11 +2,16 @@
 session_start();
 require_once __DIR__ . '/includes/connection.php'; // central DB connection
 
+
+$error_msg = "";
+$success_msg = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cuName = $_POST["uname"];
     $cuPassword = $_POST["upass"];
     $cuEmail = $_POST["uemail"];
-    $cuMobile = $_POST["umobile"];
+    // Concatenate country code and mobile number
+    $cuMobile = $_POST["country_code"] . $_POST["umobile_number"];
     $cuAddress = $_POST["uaddress"];
 
     // Start a transaction to ensure both inserts succeed
@@ -16,9 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Insert into `customer` first
         $stmt1 = $conn->prepare("INSERT INTO customer (cuEmail, cuMobile, cuAddress, cuName) VALUES (?, ?, ?, ?)");
         $stmt1->bind_param("ssss", $cuEmail, $cuMobile, $cuAddress, $cuName);
-        $stmt1->execute();
 
-        if ($stmt1->affected_rows > 0) {
+        if ($stmt1->execute()) {
             $last_id = $stmt1->insert_id; // Get the generated cuId from `customer`
 
             // Hash the password before storing it
@@ -27,25 +31,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Insert into `customerlogin` with the correct `cuId`
             $stmt2 = $conn->prepare("INSERT INTO customerlogin (cuUserName, cuPassword, cuId) VALUES (?, ?, ?)");
             $stmt2->bind_param("ssi", $cuName, $hashed_password, $last_id);
-            $stmt2->execute();
 
-            if ($stmt2->affected_rows > 0) {
+            if ($stmt2->execute()) {
                 mysqli_commit($conn); // Commit transaction
-                echo "<script>alert('Successfully registered! Redirecting to login...'); window.location.href='sarks-login.php';</script>";
-                exit();
+                $success_msg = "Successfully registered! Redirecting to login...";
+                echo "<script>setTimeout(function(){ window.location.href='sarks-login.php'; }, 2000);</script>";
             } else {
                 throw new Exception("Error inserting into customerlogin.");
             }
 
             $stmt2->close();
         } else {
-            throw new Exception("Error inserting into customer.");
+            throw new Exception("Error inserting into customer (Email likely exists).");
         }
 
         $stmt1->close();
     } catch (Exception $e) {
         mysqli_rollback($conn); // Rollback transaction if an error occurs
-        echo "<script>alert('Registration failed: " . $e->getMessage() . "');</script>";
+        $error_msg = "Registration failed: " . $e->getMessage();
     }
 
     $conn->close();
@@ -125,6 +128,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <p>Create your account</p>
                             </div>
 
+                            <?php if (!empty($success_msg)): ?>
+                                <div class="alert alert-success text-center mb-4" role="alert" style="background: rgba(40, 167, 69, 0.1); border: 1px solid rgba(40, 167, 69, 0.2); color: #28a745; backdrop-filter: blur(5px);">
+                                    <?php echo $success_msg; ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if (!empty($error_msg)): ?>
+                                <div class="alert alert-danger text-center mb-4" role="alert" style="background: rgba(220, 53, 69, 0.1); border: 1px solid rgba(220, 53, 69, 0.2); color: #ff6b6b; backdrop-filter: blur(5px);">
+                                    <?php echo $error_msg; ?>
+                                </div>
+                            <?php endif; ?>
+
                             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                                 <div class="form-group mb-3">
                                     <label for="user" class="mb-2 text-white">Username</label>
@@ -139,14 +154,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="form-group mb-3">
                                     <label for="pwd" class="mb-2 text-white">Password</label>
                                     <input type="password" class="form-control" id="pwd" name="upass"
-                                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required
-                                        title="Must contain at least one number, one uppercase, and lowercase letter, and at least 8 characters"
+                                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}" required
+                                        title="Must contain at least one number, one uppercase, one lowercase letter, one special character, and at least 8 characters"
                                         style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;">
                                 </div>
 
                                 <div class="form-group mb-3">
                                     <label for="mbl" class="mb-2 text-white">Mobile</label>
-                                    <input type="text" class="form-control" id="mbl" pattern="[0]{1}[1-9]{1}[0-9]{6}" name="umobile" required style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;">
+                                    <div class="input-group">
+                                        <select class="form-select" name="country_code" style="max-width: 120px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;" required>
+                                            <option value="+961" selected>+961 (LB)</option>
+                                            <option value="+1">+1 (US/CA)</option>
+                                            <option value="+44">+44 (UK)</option>
+                                            <option value="+971">+971 (UAE)</option>
+                                            <option value="+966">+966 (SA)</option>
+                                            <option value="+33">+33 (FR)</option>
+                                            <option value="+49">+49 (DE)</option>
+                                            <option value="+39">+39 (IT)</option>
+                                            <option value="+41">+41 (CH)</option>
+                                            <option value="+91">+91 (IN)</option>
+                                            <option value="+86">+86 (CN)</option>
+                                            <option value="+81">+81 (JP)</option>
+                                            <option value="+61">+61 (AU)</option>
+                                            <option value="">Other</option>
+                                        </select>
+                                        <input type="text" class="form-control" id="mbl" pattern="[0-9]+" name="umobile_number" placeholder="Enter number" required style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;">
+                                    </div>
                                 </div>
 
                                 <div class="form-group mb-4">
