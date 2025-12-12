@@ -130,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <p>Create your account</p>
                             </div>
 
-                            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="php-email-form">
+                            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                                 <div class="form-group mb-3">
                                     <label for="user" class="mb-2 text-white">Username</label>
                                     <input type="text" class="form-control" id="user" name="uname" pattern="[a-zA-Z0-9]+" required style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;">
