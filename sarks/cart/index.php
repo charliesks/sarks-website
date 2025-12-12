@@ -63,12 +63,7 @@ if (isset($_GET['page']) && in_array($_GET['page'], $allowed_pages)) {
                     <li><a class="nav-link scrollto" href="../sarks-logout.php">Logout</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
-                <button id="music-toggle" class="music-btn">
-                    <i class="bi bi-volume-mute-fill"></i>
-                </button>
-                <audio id="bg-music" loop autoplay>
-                    <source src="../assets/audio/background.mp3" type="audio/mpeg">
-                </audio>
+
             </nav>
         </div>
     </header><!-- End Header -->

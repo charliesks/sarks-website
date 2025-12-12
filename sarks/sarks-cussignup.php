@@ -106,12 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <li><a class="nav-link" href="sarks-login.php">Login</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
-                <button id="music-toggle" class="music-btn">
-                    <i class="bi bi-volume-mute-fill"></i>
-                </button>
-                <audio id="bg-music" loop autoplay>
-                    <source src="assets/audio/background.mp3" type="audio/mpeg">
-                </audio>
+
             </nav>
 
         </div>
@@ -241,7 +236,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
     <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
     <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
+
 
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
