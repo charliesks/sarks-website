@@ -32,24 +32,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // session_regenerate_id(true); // Secure session - Temporarily disabled for debugging
             $_SESSION["uname"] = $username;
             $_SESSION["uId"] = $cuId;
-            // Explicitly save the session data
+            // Explicitly save the session data to ensure it persists across the redirect
             session_write_close();
 
-            // VERIFICATION: Check if data was actually saved
-            session_start();
-            $verification_uname = isset($_SESSION["uname"]) ? $_SESSION["uname"] : "NOT SET";
-
-            echo "Login Processed.<br>";
-            echo "Session Save Path: " . session_save_path() . "<br>";
-            echo "Session ID: " . session_id() . "<br>";
-            echo "Written uname: " . $username . "<br>";
-            echo "Read-back uname: " . $verification_uname . "<br>";
-
-            echo "<br><a href='sarks-cushome.php'>Click here to continue to Dashboard</a>";
+            header("Location: sarks-cushome.php"); // Redirect to dashboard
             exit();
-
-            // header("Location: sarks-cushome.php"); // Redirect to dashboard
-            // exit();
         } else {
             $error_msg = "Incorrect username or password!";
         }

@@ -12,16 +12,8 @@ error_reporting(E_ALL);
 
 // Redirect if user is not logged in
 if (!isset($_SESSION["uname"])) {
-    // DEBUGGING HOME
-    echo "Session 'uname' not found.<br>";
-    echo "Session Save Path: " . session_save_path() . "<br>";
-    echo "Current session: " . print_r($_SESSION, true);
-    echo "<br>Session ID: " . session_id();
-    echo "<br>Cookie: " . print_r($_COOKIE, true);
+    header("Location: sarks-login.php");
     exit();
-
-    // header("Location: sarks-login.php");
-    // exit();
 }
 
 // Use a prepared statement to prevent SQL injection
