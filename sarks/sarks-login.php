@@ -28,8 +28,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["uname"] = $username;
             $_SESSION["uId"] = $cuId;
             session_write_close();
-            header("Location: sarks-cushome.php"); // Redirect to dashboard
+
+            // DEBUGGING LOGIN
+            echo "Login successful. Session vars set: " . print_r($_SESSION, true);
+            echo "<br>Redirecting to sarks-cushome.php...";
             exit();
+
+            // header("Location: sarks-cushome.php"); // Redirect to dashboard
+            // exit();
         } else {
             $error_msg = "Incorrect username or password!";
         }

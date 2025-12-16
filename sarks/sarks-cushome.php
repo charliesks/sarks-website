@@ -4,6 +4,11 @@ require_once __DIR__ . '/includes/connection.php'; // central DB connection
 
 // Redirect if user is not logged in
 if (!isset($_SESSION["uname"])) {
+    // DEBUGGING HOME
+    // echo "Session 'uname' not found. Current session: " . print_r($_SESSION, true);
+    // echo "<br>Redirecting back to login...";
+    // exit();
+
     header("Location: sarks-login.php");
     exit();
 }
