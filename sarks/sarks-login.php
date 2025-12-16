@@ -5,7 +5,11 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // Force local session save path
-session_save_path(__DIR__ . '/tmp');
+$sess_save_path = __DIR__ . '/tmp';
+if (!is_dir($sess_save_path)) {
+    mkdir($sess_save_path, 0777, true);
+}
+session_save_path($sess_save_path);
 session_set_cookie_params(0, '/');
 session_start();
 require_once __DIR__ . '/includes/connection.php'; // central DB connection
@@ -35,14 +39,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // session_write_close(); // Let PHP handle this
 
             // DEBUGGING LOGIN
-            echo "Login successful.<br>";
-            echo "Session Save Path: " . session_save_path() . "<br>";
-            echo "Session vars set: " . print_r($_SESSION, true);
-            echo "<br><a href='sarks-cushome.php'>Click here to go to Dashboard</a>";
-            exit();
+            // echo "Login successful.<br>";
+            // echo "Session Save Path: " . session_save_path() . "<br>";
+            // echo "Session vars set: " . print_r($_SESSION, true);
+            // echo "<br><a href='sarks-cushome.php'>Click here to go to Dashboard</a>";
+            // exit(); 
 
-            // header("Location: sarks-cushome.php"); // Redirect to dashboard
-            // exit();
+            header("Location: sarks-cushome.php"); // Redirect to dashboard
+            exit();
         } else {
             $error_msg = "Incorrect username or password!";
         }
