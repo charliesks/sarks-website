@@ -1,9 +1,13 @@
 <?php
 ob_start();
-session_set_cookie_params(0, '/'); // Ensure cookie is valid for entire domain
-session_start();
-error_reporting(E_ALL);
 ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Force local session save path
+session_save_path(__DIR__ . '/tmp');
+session_set_cookie_params(0, '/');
+session_start();
 require_once __DIR__ . '/includes/connection.php'; // central DB connection
 
 
