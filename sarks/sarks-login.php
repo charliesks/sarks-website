@@ -1,5 +1,6 @@
 <?php
 ob_start();
+session_set_cookie_params(0, '/'); // Ensure cookie is valid for entire domain
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -24,18 +25,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->num_rows > 0) {
         // Verify the hashed password
         if (password_verify($password, $db_password)) {
-            session_regenerate_id(true); // Secure session
+            // session_regenerate_id(true); // Secure session - Temporarily disabled for debugging
             $_SESSION["uname"] = $username;
             $_SESSION["uId"] = $cuId;
             session_write_close();
 
             // DEBUGGING LOGIN
-            echo "Login successful. Session vars set: " . print_r($_SESSION, true);
-            echo "<br>Redirecting to sarks-cushome.php...";
-            exit();
+            // echo "Login successful. Session vars set: " . print_r($_SESSION, true);
+            // echo "<br>Redirecting to sarks-cushome.php...";
+            // exit(); 
 
-            // header("Location: sarks-cushome.php"); // Redirect to dashboard
-            // exit();
+            header("Location: sarks-cushome.php"); // Redirect to dashboard
+            exit();
         } else {
             $error_msg = "Incorrect username or password!";
         }

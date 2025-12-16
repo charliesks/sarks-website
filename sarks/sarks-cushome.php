@@ -1,16 +1,18 @@
 <?php
+session_set_cookie_params(0, '/'); // Ensure cookie is valid for entire domain
 session_start();
 require_once __DIR__ . '/includes/connection.php'; // central DB connection
 
 // Redirect if user is not logged in
 if (!isset($_SESSION["uname"])) {
     // DEBUGGING HOME
-    // echo "Session 'uname' not found. Current session: " . print_r($_SESSION, true);
-    // echo "<br>Redirecting back to login...";
-    // exit();
-
-    header("Location: sarks-login.php");
+    echo "Session 'uname' not found. Current session: " . print_r($_SESSION, true);
+    echo "<br>Session ID: " . session_id();
+    echo "<br>Cookie: " . print_r($_COOKIE, true);
     exit();
+
+    // header("Location: sarks-login.php");
+    // exit();
 }
 
 // Use a prepared statement to prevent SQL injection
