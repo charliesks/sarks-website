@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->num_rows > 0) {
         // Verify the hashed password
         if (password_verify($password, $db_password)) {
-            // session_regenerate_id(true); // Temporarily disabled to debug redirect loop
+            session_regenerate_id(true); // Secure session
             $_SESSION["uname"] = $username;
             $_SESSION["uId"] = $cuId;
             session_write_close();

@@ -48,7 +48,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt1->close();
     } catch (Exception $e) {
         mysqli_rollback($conn); // Rollback transaction if an error occurs
-        if ($conn->errno == 1062) {
+
+        // check if it's a mysqli_sql_exception and if the code is 1062 (Duplicate entry)
+        if ($e instanceof mysqli_sql_exception && $e->getCode() == 1062) {
+            $error_msg = "Registration failed: Username or Email already exists.";
+        } elseif ($conn->errno == 1062) {
+            // Fallback check for errno on the connection if the exception doesn't carry it directly
             $error_msg = "Registration failed: Username or Email already exists.";
         } else {
             $error_msg = "Registration failed: " . $e->getMessage();
