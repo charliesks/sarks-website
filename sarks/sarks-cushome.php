@@ -3,10 +3,17 @@ session_set_cookie_params(0, '/'); // Ensure cookie is valid for entire domain
 session_start();
 require_once __DIR__ . '/includes/connection.php'; // central DB connection
 
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // Redirect if user is not logged in
 if (!isset($_SESSION["uname"])) {
     // DEBUGGING HOME
-    echo "Session 'uname' not found. Current session: " . print_r($_SESSION, true);
+    echo "Session 'uname' not found.<br>";
+    echo "Session Save Path: " . session_save_path() . "<br>";
+    echo "Current session: " . print_r($_SESSION, true);
     echo "<br>Session ID: " . session_id();
     echo "<br>Cookie: " . print_r($_COOKIE, true);
     exit();
