@@ -13,7 +13,7 @@ services:
       core: 0
     volumes:
       - ./sarks:/var/www/html:ro 
-      - ./sessions:/tmp
+      - sessions:/tmp
     ports:
       - "8085:8080"
     depends_on:
@@ -42,7 +42,7 @@ services:
       core: 0
     volumes:
       - ./sarks:/var/www/html:ro
-      - ./sessions:/tmp
+      - sessions:/tmp
     ports:
       - "8086:8080"
     depends_on:
@@ -71,7 +71,7 @@ services:
       core: 0
     volumes:
       - ./sarks:/var/www/html:ro
-      - ./sessions:/tmp
+      - sessions:/tmp
     ports:
       - "8087:8080"
     depends_on:
