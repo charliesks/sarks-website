@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once __DIR__ . '/includes/session_ready.php';
 require_once __DIR__ . '/includes/connection.php'; // central DB connection
 
 // Redirect if user is not logged in

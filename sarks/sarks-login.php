@@ -4,10 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Force session save path to system temp (writable)
-session_save_path('/tmp');
-session_set_cookie_params(0, '/');
-session_start();
+require_once __DIR__ . '/includes/session_ready.php';
 require_once __DIR__ . '/includes/connection.php'; // central DB connection
 
 

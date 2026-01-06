@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once __DIR__ . '/includes/session_ready.php';
 require_once __DIR__ . '/includes/connection.php'; // central DB connection
 
 
@@ -35,7 +35,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($stmt2->execute()) {
                 mysqli_commit($conn); // Commit transaction
                 $success_msg = "Successfully registered! Redirecting to login...";
-                echo "<script>setTimeout(function(){ window.location.href='sarks-login.php'; }, 2000);</script>";
+                echo "<script>
+    setTimeout(function() {
+        window.location.href = 'sarks-login.php';
+    }, 2000);
+</script>";
             } else {
                 throw new Exception("Error inserting into customerlogin.");
             }

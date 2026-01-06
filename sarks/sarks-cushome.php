@@ -1,8 +1,5 @@
 <?php
-// Force session save path to system temp (writable)
-session_save_path('/tmp');
-session_set_cookie_params(0, '/');
-session_start();
+require_once __DIR__ . '/includes/session_ready.php';
 require_once __DIR__ . '/includes/connection.php'; // central DB connection
 
 // Enable error reporting for debugging
@@ -27,7 +24,10 @@ $stmt->fetch();
 if ($stmt->num_rows > 0) {
     $_SESSION["uId"] = $cuId; // Store user ID in session
 } else {
-    echo "<script>alert('User not found! Redirecting to login...'); window.location.href='sarks-login.php';</script>";
+    echo "<script>
+    alert('User not found! Redirecting to login...');
+    window.location.href = 'sarks-login.php';
+</script>";
     exit();
 }
 
