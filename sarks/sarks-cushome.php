@@ -197,10 +197,15 @@ $conn->close();
 
     <script>
         // Animate dashboard cards
+        // Set initial state to be safe if JS fails
+        gsap.set(".feature-card", {
+            autoAlpha: 1
+        });
+
         gsap.from(".feature-card", {
             duration: 0.8,
             y: 50,
-            opacity: 0,
+            autoAlpha: 0,
             stagger: 0.2,
             ease: "power3.out",
             delay: 0.2

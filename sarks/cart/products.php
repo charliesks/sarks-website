@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once __DIR__ . '/includes/connection.php'; // central DB connection
+require_once __DIR__ . '/../includes/connection.php'; // central DB connection
 
 // Add item to cart
 if (isset($_GET['action']) && $_GET['action'] == "add") {

@@ -3,7 +3,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require_once __DIR__ . '/includes/connection.php'; // central DB connection
+require_once __DIR__ . '/../includes/connection.php'; // central DB connection
 
 // Set the default page
 $_page = "products";
@@ -102,11 +102,9 @@ if (isset($_GET['page']) && in_array($_GET['page'], $allowed_pages)) {
 
                         <?php
                         if (!empty($_SESSION['cart'])) {
-                            // Create a database connection
-                            $conn = mysqli_connect("sarks_mysql", "root", "root", "sarksdb");
-
+                            // Use the existing database connection $conn from connection.php
                             if (!$conn) {
-                                die("Connection Failed: " . mysqli_connect_error());
+                                die("Connection Failed: Database connection not available");
                             }
 
                             // Fetch product details
@@ -123,7 +121,7 @@ if (isset($_GET['page']) && in_array($_GET['page'], $allowed_pages)) {
                                 echo '</div>';
                             }
                             echo '</div>';
-                            mysqli_close($conn);
+                            // mysqli_close($conn); // Don't close here, it's a shared connection
                         ?>
                             <hr class="border-secondary" />
                             <div class="text-center">
