@@ -4,6 +4,7 @@ require_once __DIR__ . '/../includes/connection.php'; // central DB connection
 
 // Redirect if cart is empty
 if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
+    session_write_close();
     echo "<script>alert('Your cart is empty! Redirecting to the products page.'); window.location.href='index.php';</script>";
     exit();
 }
@@ -30,7 +31,7 @@ $totalprice = 0;
     <a href="index.php" class="text-primary text-decoration-none"><i class="bx bx-arrow-back"></i> Back to Products</a>
 </div>
 
-<form method="post" action="cart.php">
+<form method="post" action="index.php?page=cart">
     <div class="table-responsive mb-4">
         <table class="table table-dark table-hover" style="background: transparent;">
             <thead>
@@ -74,7 +75,7 @@ $totalprice = 0;
 <!-- Customer Details Form -->
 <div class="glass-panel p-4 mt-4">
     <h5 class="text-center mb-4 text-white">Checkout Details</h5>
-    <form action="cart.php" method="post">
+    <form action="index.php?page=cart" method="post">
         <div class="row">
             <div class="col-md-6 form-group mb-3">
                 <label for="user" class="mb-2 text-muted">Customer Name</label>
@@ -127,6 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["confirm_order"])) {
         // Clear the cart after order
         unset($_SESSION['cart']);
 
+        session_write_close();
         echo "<script>alert('Order Confirmed!'); window.location.href='index.php';</script>";
     } else {
         echo "<script>alert('Please fill in all the required fields.');</script>";

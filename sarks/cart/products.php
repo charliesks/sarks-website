@@ -26,6 +26,7 @@ if (isset($_GET['action']) && $_GET['action'] == "add") {
             $message = "This product ID is invalid!";
         }
     }
+    session_write_close();
 }
 ?>
 
