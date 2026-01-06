@@ -119,8 +119,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["confirm_order"])) {
             $p_query = mysqli_query($conn, $p_sql);
             $p_row = mysqli_fetch_array($p_query);
 
-            $stmt = $conn->prepare("INSERT INTO productseorder (ordercusname, orderphone, orderaddress, pdtId, pdtName, pdtprice, pdtquantity) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("sssissi", $cuName, $cuMobile, $cuAddress, $id, $p_row['pdtName'], $p_row['price'], $cartItem['quantity']);
+            $total_item_price = $p_row['price'] * $cartItem['quantity'];
+
+            $stmt = $conn->prepare("INSERT INTO productsorder (pdtId, pdtquantity, pdtprice, totalprice, ordercusname, orderphone, orderaddress) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("iiddsss", $id, $cartItem['quantity'], $p_row['price'], $total_item_price, $cuName, $cuMobile, $cuAddress);
             $stmt->execute();
             $stmt->close();
         }
