@@ -101,8 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <ul>
                     <li><a class="nav-link scrollto" href="index.html#hero">Home</a></li>
                     <li><a class="nav-link scrollto" href="index.html#about">About</a></li>
-                    <li><a class="nav-link scrollto" href="index.html#concepts">Concepts</a></li>
-                    <li><a class="nav-link scrollto" href="index.html#elements">Elements</a></li>
+                    <li><a class="nav-link" href="sarks-products.php">Plans</a></li>
                     <li><a class="nav-link scrollto" href="index.html#contact">Contact</a></li>
                     <li><a class="nav-link active" href="sarks-login.php">Login</a></li>
                 </ul>

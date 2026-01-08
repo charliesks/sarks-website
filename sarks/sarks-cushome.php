@@ -82,8 +82,9 @@ $conn->close();
             <nav id="navbar" class="navbar">
                 <ul>
                     <li><a class="nav-link scrollto" href="index.html">Home</a></li>
-                    <li><a class="nav-link scrollto active" href="sarks-cushome.php">Dashboard</a></li>
-                    <li><a class="nav-link scrollto" href="sarks-logout.php">Logout</a></li>
+                    <li><a class="nav-link active" href="sarks-cushome.php">Dashboard</a></li>
+                    <li><a class="nav-link" href="sarks-products.php">Plans</a></li>
+                    <li><a class="nav-link" href="sarks-logout.php">Logout</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
 

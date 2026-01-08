@@ -52,9 +52,9 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['id'])) {
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Pricing Plans - Sarks</title>
+  <title>Our Plans - Sarks</title>
   <meta content="Choose the best protection plan for your needs." name="description">
-  <meta content="Pricing, Bronze, Silver, Gold, Protection Plans" name="keywords">
+  <meta content="Plans, Bronze, Silver, Gold, Protection Plans" name="keywords">
 
   <!-- Favicons -->
   <link href="assets/img/sarks-blackhole.png" rel="icon">
@@ -154,7 +154,7 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['id'])) {
       <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto" href="index.html#hero">Home</a></li>
-          <li><a class="nav-link active" href="sarks-products.php">Pricing</a></li>
+          <li><a class="nav-link active" href="sarks-products.php">Plans</a></li>
           <li><a class="nav-link scrollto" href="index.html#contact">Contact</a></li>
           <?php if (isset($_SESSION['uname'])): ?>
             <li><a class="nav-link" href="cart/index.php">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a></li>
@@ -171,20 +171,9 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['id'])) {
 
   <main id="main">
 
-    <!-- ======= Breadcrumbs ======= -->
-    <section class="breadcrumbs">
-      <div class="container">
-        <div class="d-flex justify-content-between align-items-center">
-          <h2>Our Protection Plans</h2>
-          <ol>
-            <li><a href="index.html">Home</a></li>
-            <li>Pricing</li>
-          </ol>
-        </div>
-      </div>
-    </section><!-- End Breadcrumbs -->
 
-    <section id="pricing" class="about section-bg">
+
+    <section id="pricing" class="about section-bg d-flex align-items-center" style="min-height: 100vh; padding: 100px 0;">
       <div class="container">
 
         <?php if ($message != ""): ?>
@@ -198,7 +187,7 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['id'])) {
         <?php endif; ?>
 
         <div class="section-header">
-          <h2>Pricing Table</h2>
+          <h2>Our Plans</h2>
           <p>Choose the level of security that fits your requirements.</p>
         </div>
 
@@ -300,7 +289,7 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['id'])) {
           <ul>
             <li><i class="bx bx-chevron-right"></i> <a href="index.html#hero">Home</a></li>
             <li><i class="bx bx-chevron-right"></i> <a href="index.html#about">About us</a></li>
-            <li><i class="bx bx-chevron-right"></i> <a href="sarks-products.php">Pricing</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="sarks-products.php">Plans</a></li>
           </ul>
         </div>
 
