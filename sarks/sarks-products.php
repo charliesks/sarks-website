@@ -170,9 +170,6 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['id'])) {
   </header><!-- End Header -->
 
   <main id="main">
-
-
-
     <section id="pricing" class="about section-bg d-flex align-items-center" style="min-height: 100vh; padding: 100px 0;">
       <div class="container">
 
