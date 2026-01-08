@@ -107,7 +107,7 @@ $conn->close();
 
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a class="nav-link scrollto" href="index.html">Home</a></li>
+                    <li><a class="nav-link scrollto" href="index.php">Home</a></li>
                     <li><a class="nav-link scrollto" href="sarks-cushome.php">Dashboard</a></li>
                     <li><a class="nav-link scrollto" href="sarks-logout.php">Logout</a></li>
                 </ul>
@@ -197,10 +197,10 @@ $conn->close();
                 <div class="col-lg-2 col-md-6 footer-links">
                     <h4>Useful Links</h4>
                     <ul>
-                        <li><i class="bx bx-chevron-right"></i> <a href="index.html#hero">Home</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="index.html#about">About us</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="index.html#concepts">Concepts</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="index.html#elements">Elements</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="index.php#hero">Home</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="index.php#about">About us</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="index.php#concepts">Concepts</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="index.php#elements">Elements</a></li>
                     </ul>
                 </div>
 
