@@ -32,7 +32,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Explicitly save the session data to ensure it persists across the redirect
             session_write_close();
 
-            header("Location: sarks-cushome.php"); // Redirect to dashboard
+            // Handle redirect if present
+            $redirect_url = "sarks-cushome.php";
+            if (isset($_REQUEST['redirect'])) {
+                $redirect_url = $_REQUEST['redirect'];
+            }
+
+            header("Location: $redirect_url"); // Redirect to dashboard or requested page
             exit();
         } else {
             $error_msg = "Incorrect username or password!";
@@ -126,7 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                             <?php endif; ?>
 
-                            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . (isset($_GET['redirect']) ? '?redirect=' . urlencode($_GET['redirect']) : ''); ?>" method="post">
                                 <div class="form-group mb-3">
                                     <label for="uname" class="mb-2 text-white">Username</label>
                                     <input type="text" class="form-control" id="uname" name="uname" required style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;">
