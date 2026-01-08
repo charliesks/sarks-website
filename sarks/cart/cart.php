@@ -85,6 +85,10 @@ $totalprice = 0;
                 <label for="mbl" class="mb-2 text-muted">Mobile</label>
                 <input type="text" class="form-control bg-transparent text-white border-secondary" id="mbl" pattern="[0-9]{7,15}" name="umobile" required>
             </div>
+            <div class="col-md-6 form-group mb-3">
+                <label for="email" class="mb-2 text-muted">Email</label>
+                <input type="email" class="form-control bg-transparent text-white border-secondary" id="email" name="uemail" value="<?php echo $_SESSION['cuEmail'] ?? ''; ?>" required>
+            </div>
         </div>
         <div class="form-group mb-4">
             <label for="adrs" class="mb-2 text-muted">Address</label>
@@ -103,80 +107,103 @@ $totalprice = 0;
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["confirm_order"])) {
     $cuName = $_POST["uname"];
     $cuMobile = $_POST["umobile"];
+    $cuEmail = $_POST["uemail"];
     $cuAddress = $_POST["uaddress"];
 
-    if (!empty($cuName) && !empty($cuMobile) && !empty($cuAddress)) {
-        // Re-fetch products to ensure we have data for insertion
-        // Note: In a real app, you'd want to handle this more robustly
-        // Here we rely on the session cart still being populated
+    if (!empty($cuName) && !empty($cuMobile) && !empty($cuEmail) && !empty($cuAddress)) {
+        require_once __DIR__ . '/../includes/config.php';
+        require_once __DIR__ . '/../includes/stripe_handler.php';
 
-        $guides_to_attach = [];
-        foreach ($_SESSION['cart'] as $id => $cartItem) {
-            $p_sql = "SELECT * FROM products WHERE pdtId = $id";
-            $p_query = mysqli_query($conn, $p_sql);
-            $p_row = mysqli_fetch_array($p_query);
+        $order_group_id = uniqid('ord_');
+        $total_price = 0;
+        $line_items = [];
+        $order_items = [];
 
-            $total_item_price = $p_row['price'] * $cartItem['quantity'];
+        // 1. Prepare Order Data
+        if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+            foreach ($_SESSION['cart'] as $id => $cartItem) {
+                $p_sql = "SELECT * FROM products WHERE pdtId = $id";
+                $p_query = mysqli_query($conn, $p_sql);
+                if ($p_row = mysqli_fetch_array($p_query)) {
+                    $item_total = $p_row['price'] * $cartItem['quantity'];
+                    $total_price += $item_total;
 
-            $stmt = $conn->prepare("INSERT INTO productsorder (pdtId, pdtquantity, pdtprice, totalprice, ordercusname, orderphone, orderaddress) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("iiddsss", $id, $cartItem['quantity'], $p_row['price'], $total_item_price, $cuName, $cuMobile, $cuAddress);
+                    $order_items[] = [
+                        'pdtId' => $id,
+                        'quantity' => $cartItem['quantity'],
+                        'price' => $p_row['price'],
+                        'total' => $item_total,
+                        'name' => $p_row['pdtName']
+                    ];
+
+                    if ($p_row['price'] > 0) {
+                        $line_items[] = [
+                            'price_data' => [
+                                'currency' => 'usd',
+                                'product_data' => [
+                                    'name' => $p_row['pdtName'],
+                                ],
+                                'unit_amount' => $p_row['price'] * 100, // Stripe expects cents
+                            ],
+                            'quantity' => $cartItem['quantity'],
+                        ];
+                    }
+                }
+            }
+        }
+
+        // 2. Insert Pending Order into Database
+        foreach ($order_items as $item) {
+            $stmt = $conn->prepare("INSERT INTO productsorder (pdtId, pdtquantity, pdtprice, totalprice, ordercusname, orderphone, orderemail, orderaddress, payment_status, order_group_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?)");
+            $stmt->bind_param("iiddsssss", $item['pdtId'], $item['quantity'], $item['price'], $item['total'], $cuName, $cuMobile, $cuEmail, $cuAddress, $order_group_id);
             $stmt->execute();
             $stmt->close();
-
-            // Prepare guide paths
-            $guide_path = __DIR__ . "/../assets/guides/" . $p_row['pdtName'] . " Plan.pdf";
-            if (file_exists($guide_path)) {
-                $guides_to_attach[] = ['path' => $guide_path, 'name' => $p_row['pdtName'] . " Plan.pdf"];
-            }
         }
 
-        // Send confirmation email if library is available
-        if (file_exists($php_email_form = __DIR__ . '/../assets/vendor/php-email-form/php-email-form.php')) {
-            include_once($php_email_form);
-            $contact = new PHP_Email_Form;
-            $contact->smtp = array(
-                'host' => 'smtp.zoho.com',
-                'username' => 'info@sarks.org',
-                'password' => 'Q7aVrzHq2Lzt',
-                'port' => '587'
-            );
+        // 3. Handle Payment or Immediate Confirmation
+        if ($total_price > 0) {
+            try {
+                $stripe = new StripeHandler(STRIPE_SECRET_KEY);
+                $session = $stripe->createCheckoutSession([
+                    'payment_method_types' => ['card'],
+                    'line_items' => $line_items,
+                    'mode' => 'payment',
+                    'success_url' => BASE_URL . '/cart/payment_success.php?session_id={CHECKOUT_SESSION_ID}',
+                    'cancel_url' => BASE_URL . '/cart/payment_cancel.php',
+                    'client_reference_id' => $order_group_id,
+                    'customer_email' => $cuEmail,
+                ]);
 
-            // Fetch customer email
-            $cu_email = "";
-            if (isset($_SESSION['uId'])) {
-                $c_id = $_SESSION['uId'];
-                $c_sql = "SELECT cuEmail FROM customer WHERE cuId = $c_id";
-                $c_query = mysqli_query($conn, $c_sql);
-                if ($c_row = mysqli_fetch_array($c_query)) {
-                    $cu_email = $c_row['cuEmail'];
-                }
+                // Update orders with Stripe Session ID
+                $stripe_session_id = $session['id'];
+                $update_stmt = $conn->prepare("UPDATE productsorder SET stripe_session_id = ? WHERE order_group_id = ?");
+                $update_stmt->bind_param("ss", $stripe_session_id, $order_group_id);
+                $update_stmt->execute();
+                $update_stmt->close();
+
+                // Redirect to Stripe
+                header("Location: " . $session['url']);
+                exit();
+            } catch (Exception $e) {
+                error_log("Stripe Session Creation Failed: " . $e->getMessage());
+                echo "<script>alert('There was an error connecting to the payment provider. Please try again.');</script>";
             }
+        } else {
+            // Free Order (0$) - Confirm immediately
+            $update_stmt = $conn->prepare("UPDATE productsorder SET payment_status = 'paid' WHERE order_group_id = ?");
+            $update_stmt->bind_param("s", $order_group_id);
+            $update_stmt->execute();
+            $update_stmt->close();
 
-            if (!empty($cu_email)) {
-                $contact->to = $cu_email;
-                $contact->from_name = 'Sarks Support';
-                $contact->from_email = 'info@sarks.org';
-                $contact->subject = 'Order Confirmation - Sarks';
+            // Send Confirmation Email
+            require_once __DIR__ . '/confirm_fulfillment.php';
+            fulfill_order($order_group_id);
 
-                $contact->add_message($cuName, 'Customer Name');
-                $contact->add_message('Thank you for your order. Please find your product guides attached.', 'Message');
-
-                foreach ($guides_to_attach as $guide) {
-                    $contact->add_attachment($guide['path'], $guide['name']);
-                }
-
-                $result = $contact->send();
-                if ($result !== 'OK') {
-                    error_log("Order Confirmation Email Failed: " . $result);
-                }
-            }
+            // Clear the cart
+            unset($_SESSION['cart']);
+            session_write_close();
+            echo "<script>alert('Order Confirmed!'); window.location.href='index.php';</script>";
         }
-
-        // Clear the cart after order
-        unset($_SESSION['cart']);
-
-        session_write_close();
-        echo "<script>alert('Order Confirmed!'); window.location.href='index.php';</script>";
     } else {
         echo "<script>alert('Please fill in all the required fields.');</script>";
     }

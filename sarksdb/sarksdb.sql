@@ -89,7 +89,12 @@ CREATE TABLE IF NOT EXISTS `productsorder` (
   `totalprice` DECIMAL(10,2) NOT NULL,
   `ordercusname` VARCHAR(100) NOT NULL,
   `orderphone` VARCHAR(20) NOT NULL,
+  `orderemail` VARCHAR(255),
   `orderaddress` VARCHAR(255) NOT NULL,
+  `payment_status` VARCHAR(20) DEFAULT 'pending',
+  `stripe_session_id` VARCHAR(255),
+  `order_group_id` VARCHAR(100),
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`orderId`),
   CONSTRAINT fk_productsorder_product
     FOREIGN KEY (`pdtId`)
