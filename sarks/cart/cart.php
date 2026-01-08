@@ -165,7 +165,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["confirm_order"])) {
                     $contact->add_attachment($guide['path'], $guide['name']);
                 }
 
-                $contact->send();
+                $result = $contact->send();
+                if ($result !== 'OK') {
+                    error_log("Order Confirmation Email Failed: " . $result);
+                }
             }
         }
 

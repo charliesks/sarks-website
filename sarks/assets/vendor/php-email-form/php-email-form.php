@@ -39,6 +39,11 @@ class PHP_Email_Form
         return false;
     }
 
+    public function add_reply_to($email, $name = "")
+    {
+        $this->reply_to[] = ['email' => $email, 'name' => $name];
+    }
+
     public function send()
     {
         $this->build_message_content();
@@ -79,6 +84,12 @@ class PHP_Email_Form
         $headers = "MIME-Version: 1.0" . "\r\n";
         $headers .= 'From: ' . $this->from_name . ' <' . $this->from_email . '>' . "\r\n";
 
+        if (!empty($this->reply_to)) {
+            foreach ($this->reply_to as $reply) {
+                $headers .= 'Reply-To: ' . ($reply['name'] ? $reply['name'] . ' <' . $reply['email'] . '>' : $reply['email']) . "\r\n";
+            }
+        }
+
         if (empty($this->attachments)) {
             $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
             $full_body = $this->message;
@@ -118,37 +129,64 @@ class PHP_Email_Form
         $port = $this->smtp['port'];
         $username = $this->smtp['username'];
         $password = $this->smtp['password'];
+        $encryption = isset($this->smtp['encryption']) ? $this->smtp['encryption'] : '';
 
-        if (!$socket = @fsockopen($host, $port, $errno, $errstr, 30)) {
-            return "SMTP Error: Could not connect to SMTP host. " . $errstr;
+        // Auto-detect SSL/TLS based on port if not specified
+        if ($port == 465 && strpos($host, 'ssl://') === false) {
+            $host = 'ssl://' . $host;
         }
 
-        $this->smtp_response($socket, "220");
+        if (!$socket = @fsockopen($host, $port, $errno, $errstr, 30)) {
+            return "SMTP Error: Could not connect to SMTP host $host:$port. $errstr ($errno)";
+        }
 
-        fputs($socket, "EHLO " . $host . "\r\n");
-        $this->smtp_response($socket, "250");
+        if (!$this->smtp_response($socket, "220")) return "SMTP Error: Greeting failed.";
+
+        fputs($socket, "EHLO " . $this->smtp['host'] . "\r\n");
+        if (!$this->smtp_response($socket, "250")) return "SMTP Error: EHLO failed.";
+
+        // Handle STARTTLS for port 587
+        if ($port == 587 || $encryption == 'tls') {
+            fputs($socket, "STARTTLS\r\n");
+            if (!$this->smtp_response($socket, "220")) return "SMTP Error: STARTTLS command failed.";
+
+            if (!stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
+                return "SMTP Error: Failed to enable TLS encryption.";
+            }
+
+            // Re-send EHLO after TLS negotiation
+            fputs($socket, "EHLO " . $this->smtp['host'] . "\r\n");
+            if (!$this->smtp_response($socket, "250")) return "SMTP Error: EHLO failed after STARTTLS.";
+        }
 
         fputs($socket, "AUTH LOGIN\r\n");
-        $this->smtp_response($socket, "334");
+        if (!$this->smtp_response($socket, "334")) return "SMTP Error: AUTH LOGIN rejected.";
 
         fputs($socket, base64_encode($username) . "\r\n");
-        $this->smtp_response($socket, "334");
+        if (!$this->smtp_response($socket, "334")) return "SMTP Error: Username rejected.";
 
         fputs($socket, base64_encode($password) . "\r\n");
-        $this->smtp_response($socket, "235");
+        if (!$this->smtp_response($socket, "235")) return "SMTP Error: Password rejected / Authentication failed.";
 
         fputs($socket, "MAIL FROM: <" . $username . ">\r\n");
-        $this->smtp_response($socket, "250");
+        if (!$this->smtp_response($socket, "250")) return "SMTP Error: MAIL FROM rejected.";
 
         fputs($socket, "RCPT TO: <" . $this->to . ">\r\n");
-        $this->smtp_response($socket, "250");
+        if (!$this->smtp_response($socket, "250")) return "SMTP Error: RCPT TO rejected.";
 
         fputs($socket, "DATA\r\n");
-        $this->smtp_response($socket, "354");
+        if (!$this->smtp_response($socket, "354")) return "SMTP Error: DATA command rejected.";
 
         $boundary = md5(time());
         $headers = "MIME-Version: 1.0\r\n";
         $headers .= "From: " . $this->from_name . " <" . $this->from_email . ">\r\n";
+
+        if (!empty($this->reply_to)) {
+            foreach ($this->reply_to as $reply) {
+                $headers .= 'Reply-To: ' . ($reply['name'] ? $reply['name'] . ' <' . $reply['email'] . '>' : $reply['email']) . "\r\n";
+            }
+        }
+
         $headers .= "To: " . $this->to . "\r\n";
         $headers .= "Subject: " . $this->subject . "\r\n";
 
@@ -178,8 +216,11 @@ class PHP_Email_Form
             $full_body .= "--" . $boundary . "--";
         }
 
-        fputs($socket, $headers . "\r\n" . $full_body . "\r\n.\r\n");
-        $this->smtp_response($socket, "250");
+        if (!fputs($socket, $headers . "\r\n" . $full_body . "\r\n.\r\n")) {
+            return "SMTP Error: Failed to send message body.";
+        }
+
+        if (!$this->smtp_response($socket, "250")) return "SMTP Error: Message rejected by server.";
 
         fputs($socket, "QUIT\r\n");
         fclose($socket);
@@ -195,6 +236,11 @@ class PHP_Email_Form
             if (substr($data, 3, 1) != '-') {
                 break;
             }
+        }
+
+        if (empty($response) || substr($response, 0, 3) != $expected_code) {
+            error_log("SMTP Response Error: Expected $expected_code, got '$response'");
+            return false;
         }
         return true;
     }

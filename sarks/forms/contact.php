@@ -30,8 +30,9 @@ if (isset($_POST['recaptcha-response']) && !empty($_POST['recaptcha-response']))
 }
 
 $contact->to = $receiving_email_address;
-$contact->from_name = $_POST['name'];
-$contact->from_email = $_POST['email'];
+$contact->from_name = $_POST['name'] . ' (via Sarks Website)';
+$contact->from_email = 'info@sarks.org';
+$contact->add_reply_to($_POST['email'], $_POST['name']);
 $contact->subject = $_POST['subject'];
 
 // Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
