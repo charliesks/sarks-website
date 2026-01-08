@@ -10,6 +10,28 @@ $allowed_pages = array("products", "cart");
 if (isset($_GET['page']) && in_array($_GET['page'], $allowed_pages)) {
     $_page = $_GET['page'];
 }
+
+// Handle cart actions (remove, increase, decrease)
+if (isset($_GET['action']) && isset($_GET['id'])) {
+    $id = intval($_GET['id']);
+    if ($_GET['action'] == "remove") {
+        unset($_SESSION['cart'][$id]);
+    } elseif ($_GET['action'] == "increase") {
+        if (isset($_SESSION['cart'][$id])) {
+            $_SESSION['cart'][$id]['quantity']++;
+        }
+    } elseif ($_GET['action'] == "decrease") {
+        if (isset($_SESSION['cart'][$id])) {
+            $_SESSION['cart'][$id]['quantity']--;
+            if ($_SESSION['cart'][$id]['quantity'] <= 0) {
+                unset($_SESSION['cart'][$id]);
+            }
+        }
+    }
+    // Redirect to clear the action from URL
+    header("Location: index.php?page=" . $_page);
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -55,7 +77,7 @@ if (isset($_GET['page']) && in_array($_GET['page'], $allowed_pages)) {
             </h1>
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a class="nav-link scrollto" href="../index.html">Home</a></li>
+                    <li><a class="nav-link scrollto" href="../index.php">Home</a></li>
                     <li><a class="nav-link scrollto" href="../sarks-cushome.php">Dashboard</a></li>
                     <li><a class="nav-link scrollto" href="../sarks-logout.php">Logout</a></li>
                 </ul>
@@ -106,18 +128,23 @@ if (isset($_GET['page']) && in_array($_GET['page'], $allowed_pages)) {
 
                             // Fetch product details
                             $product_ids = implode(",", array_keys($_SESSION['cart']));
-                            $sql = "SELECT * FROM products WHERE pdtId IN ($product_ids) ORDER BY pdtId ASC";
-                            $query = mysqli_query($conn, $sql);
+                            if (!empty($product_ids)) {
+                                $sql = "SELECT * FROM products WHERE pdtId IN ($product_ids) ORDER BY pdtId ASC";
+                                $query = mysqli_query($conn, $sql);
 
-                            // Display cart items
-                            echo '<div class="cart-items mb-3">';
-                            while ($row = mysqli_fetch_array($query)) {
-                                echo '<div class="d-flex justify-content-between align-items-center mb-2 p-2" style="background: rgba(255,255,255,0.05); border-radius: 8px;">';
-                                echo '<span class="text-white">' . htmlspecialchars($row['pdtName']) . '</span>';
-                                echo '<span class="badge bg-primary">' . $_SESSION['cart'][$row['pdtId']]['quantity'] . '</span>';
+                                // Display cart items
+                                echo '<div class="cart-items mb-3">';
+                                while ($row = mysqli_fetch_array($query)) {
+                                    echo '<div class="d-flex justify-content-between align-items-center mb-2 p-2" style="background: rgba(255,255,255,0.05); border-radius: 8px;">';
+                                    echo '<span class="text-white">' . htmlspecialchars($row['pdtName']) . '</span>';
+                                    echo '<span class="badge bg-primary">' . $_SESSION['cart'][$row['pdtId']]['quantity'] . '</span>';
+                                    echo '</div>';
+                                }
                                 echo '</div>';
+                            } else {
+                                echo "<p class='text-muted'>Your Cart is empty. Please add some products.</p>";
                             }
-                            echo '</div>';
+                        ?>
                             // mysqli_close($conn); // Don't close here, it's a shared connection
                         ?>
                             <hr class="border-secondary" />
@@ -156,10 +183,10 @@ if (isset($_GET['page']) && in_array($_GET['page'], $allowed_pages)) {
                 <div class="col-lg-2 col-md-6 footer-links">
                     <h4>Useful Links</h4>
                     <ul>
-                        <li><i class="bx bx-chevron-right"></i> <a href="../index.html#hero">Home</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="../index.html#about">About us</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="../index.html#concepts">Concepts</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="../index.html#elements">Elements</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="../index.php#hero">Home</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="../index.php#about">About us</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="../index.php#concepts">Concepts</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="../index.php#elements">Elements</a></li>
                     </ul>
                 </div>
 

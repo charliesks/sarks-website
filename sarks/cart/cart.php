@@ -12,7 +12,7 @@ if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
 // Update cart quantities
 if (isset($_POST['submit'])) {
     foreach ($_POST['quantity'] as $id => $quantity) {
-        if ($quantity == 0) {
+        if ($quantity <= 0) {
             unset($_SESSION['cart'][$id]);
         } else {
             $_SESSION['cart'][$id]['quantity'] = $quantity;
@@ -20,8 +20,15 @@ if (isset($_POST['submit'])) {
     }
 }
 
+// Check if cart is empty again after updates
+if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
+    echo "<script>alert('Your cart is now empty!'); window.location.href='index.php';</script>";
+    exit();
+}
+
 // Fetch product details
-$sql = "SELECT * FROM products WHERE pdtId IN (" . implode(",", array_keys($_SESSION['cart'])) . ") ORDER BY pdtId ASC";
+$product_ids = implode(",", array_keys($_SESSION['cart']));
+$sql = "SELECT * FROM products WHERE pdtId IN ($product_ids) ORDER BY pdtId ASC";
 $query = mysqli_query($conn, $sql);
 $totalprice = 0;
 ?>
@@ -40,6 +47,7 @@ $totalprice = 0;
                     <th class="text-primary">Quantity</th>
                     <th class="text-primary">Price</th>
                     <th class="text-primary">Subtotal</th>
+                    <th class="text-primary">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,13 +58,20 @@ $totalprice = 0;
                     <tr style="vertical-align: middle;">
                         <td class="text-white"><?php echo htmlspecialchars($row['pdtName']); ?></td>
                         <td>
-                            <input type="number" name="quantity[<?php echo $row['pdtId']; ?>]"
-                                class="form-control form-control-sm bg-dark text-white border-secondary"
-                                style="width: 80px;"
-                                value="<?php echo $_SESSION['cart'][$row['pdtId']]['quantity']; ?>" min="0" />
+                            <div class="input-group input-group-sm" style="width: 130px;">
+                                <a href="index.php?page=cart&action=decrease&id=<?php echo $row['pdtId']; ?>" class="btn btn-outline-secondary border-secondary text-white">-</a>
+                                <input type="text" readonly class="form-control bg-dark text-white border-secondary text-center" 
+                                    value="<?php echo $_SESSION['cart'][$row['pdtId']]['quantity']; ?>">
+                                <a href="index.php?page=cart&action=increase&id=<?php echo $row['pdtId']; ?>" class="btn btn-outline-secondary border-secondary text-white">+</a>
+                            </div>
                         </td>
                         <td class="text-white"><?php echo $row['price']; ?>$</td>
                         <td class="text-white"><?php echo $subtotal; ?>$</td>
+                        <td>
+                            <a href="index.php?page=cart&action=remove&id=<?php echo $row['pdtId']; ?>" class="btn btn-sm btn-outline-danger" title="Remove from cart">
+                                <i class="bx bx-trash"></i>
+                            </a>
+                        </td>
                     </tr>
                 <?php } ?>
                 <tr>
