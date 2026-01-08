@@ -194,7 +194,7 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['id'])) {
           <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
             <div class="glass-panel pricing-card p-5">
               <h3>Bronze Protection</h3>
-              <div class="price">0$<span>/yr</span></div>
+              <div class="price">0$<span>/month</span></div>
               <ul class="features-list">
                 <li><i class="bi bi-check-circle-fill"></i> Standard Ad Blocking</li>
                 <li><i class="bi bi-check-circle-fill"></i> Malware Protection</li>
@@ -217,7 +217,7 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['id'])) {
             <div class="glass-panel pricing-card featured p-5">
               <div class="plan-badge">Popular</div>
               <h3>Silver Protection</h3>
-              <div class="price">25$<span>/yr</span></div>
+              <div class="price">25$<span>/month</span></div>
               <ul class="features-list">
                 <li><i class="bi bi-check-circle-fill"></i> Advanced Ad Blocking</li>
                 <li><i class="bi bi-check-circle-fill"></i> Premium Malware Shield</li>
@@ -239,7 +239,7 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['id'])) {
           <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
             <div class="glass-panel pricing-card p-5">
               <h3>Gold Protection</h3>
-              <div class="price">50$<span>/yr</span></div>
+              <div class="price">50$<span>/month</span></div>
               <ul class="features-list">
                 <li><i class="bi bi-check-circle-fill"></i> Ultimate Ad Blocking</li>
                 <li><i class="bi bi-check-circle-fill"></i> Real-time Threat Intelligence</li>
