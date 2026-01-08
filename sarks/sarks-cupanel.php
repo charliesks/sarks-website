@@ -100,7 +100,7 @@ $conn->close();
         <div class="container d-flex align-items-center justify-content-between">
 
             <h1 class="logo">
-                <a href="index.html">
+                <a href="index.php">
                     <img src="assets/img/sarks-red.png" alt="Sarks Logo">
                 </a>
             </h1>
