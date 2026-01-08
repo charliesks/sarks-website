@@ -30,6 +30,15 @@ class PHP_Email_Form
         $this->messages[] = ['content' => $content, 'label' => $label, 'priority' => $priority];
     }
 
+    public function add_attachment($path, $name = "")
+    {
+        if (file_exists($path)) {
+            $this->attachments[] = ['path' => $path, 'name' => $name ? $name : basename($path)];
+            return true;
+        }
+        return false;
+    }
+
     public function send()
     {
         $this->build_message_content();
@@ -66,11 +75,37 @@ class PHP_Email_Form
 
     private function send_php_mail()
     {
+        $boundary = md5(time());
         $headers = "MIME-Version: 1.0" . "\r\n";
-        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
         $headers .= 'From: ' . $this->from_name . ' <' . $this->from_email . '>' . "\r\n";
 
-        if (mail($this->to, $this->subject, $this->message, $headers)) {
+        if (empty($this->attachments)) {
+            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+            $full_body = $this->message;
+        } else {
+            $headers .= "Content-Type: multipart/mixed; boundary=\"" . $boundary . "\"" . "\r\n";
+            $full_body = "--" . $boundary . "\r\n";
+            $full_body .= "Content-Type: text/html; charset=UTF-8\r\n";
+            $full_body .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+            $full_body .= $this->message . "\r\n\r\n";
+
+            foreach ($this->attachments as $attachment) {
+                $filename = $attachment['name'];
+                $path = $attachment['path'];
+                $content = file_get_contents($path);
+                $content = chunk_split(base64_encode($content));
+
+                $full_body .= "--" . $boundary . "\r\n";
+                $full_body .= "Content-Type: application/octet-stream; name=\"" . $filename . "\"\r\n";
+                $full_body .= "Content-Description: " . $filename . "\r\n";
+                $full_body .= "Content-Disposition: attachment; filename=\"" . $filename . "\"; size=" . filesize($path) . ";\r\n";
+                $full_body .= "Content-Transfer-Encoding: base64\r\n\r\n";
+                $full_body .= $content . "\r\n\r\n";
+            }
+            $full_body .= "--" . $boundary . "--";
+        }
+
+        if (mail($this->to, $this->subject, $full_body, $headers)) {
             return 'OK';
         } else {
             return 'Unable to send email. Please try again.';
@@ -79,15 +114,10 @@ class PHP_Email_Form
 
     private function send_smtp()
     {
-        // Use PHPMailer or a custom SMTP implementation. 
-        // Since we don't have PHPMailer here, implementing a basic socket SMTP client.
-        // NOTE: This is a simplified version. For production reliability, PHPMailer is recommended.
-
         $host = $this->smtp['host'];
         $port = $this->smtp['port'];
         $username = $this->smtp['username'];
         $password = $this->smtp['password'];
-        // $encryption = isset($this->smtp['encryption']) ? $this->smtp['encryption'] : ''; // unused in basic
 
         if (!$socket = @fsockopen($host, $port, $errno, $errstr, 30)) {
             return "SMTP Error: Could not connect to SMTP host. " . $errstr;
@@ -107,23 +137,48 @@ class PHP_Email_Form
         fputs($socket, base64_encode($password) . "\r\n");
         $this->smtp_response($socket, "235");
 
-        fputs($socket, "MAIL FROM: <" . $username . ">\r\n"); // Usually needs to match user
+        fputs($socket, "MAIL FROM: <" . $username . ">\r\n");
         $this->smtp_response($socket, "250");
 
-        // $this->to is the recipient
         fputs($socket, "RCPT TO: <" . $this->to . ">\r\n");
         $this->smtp_response($socket, "250");
 
         fputs($socket, "DATA\r\n");
         $this->smtp_response($socket, "354");
 
+        $boundary = md5(time());
         $headers = "MIME-Version: 1.0\r\n";
-        $headers .= "Content-type: text/html; charset=utf-8\r\n";
-        $headers .= "From: " . $this->from_name . " <" . $this->from_email . ">\r\n"; // Spoofing might be blocked by SPF
+        $headers .= "From: " . $this->from_name . " <" . $this->from_email . ">\r\n";
         $headers .= "To: " . $this->to . "\r\n";
         $headers .= "Subject: " . $this->subject . "\r\n";
 
-        fputs($socket, $headers . "\r\n" . $this->message . "\r\n.\r\n");
+        if (empty($this->attachments)) {
+            $headers .= "Content-type: text/html; charset=utf-8\r\n";
+            $full_body = $this->message;
+        } else {
+            $headers .= "Content-Type: multipart/mixed; boundary=\"" . $boundary . "\"\r\n";
+            $full_body = "--" . $boundary . "\r\n";
+            $full_body .= "Content-Type: text/html; charset=UTF-8\r\n";
+            $full_body .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+            $full_body .= $this->message . "\r\n\r\n";
+
+            foreach ($this->attachments as $attachment) {
+                $filename = $attachment['name'];
+                $path = $attachment['path'];
+                $content = file_get_contents($path);
+                $content = chunk_split(base64_encode($content));
+
+                $full_body .= "--" . $boundary . "\r\n";
+                $full_body .= "Content-Type: application/octet-stream; name=\"" . $filename . "\"\r\n";
+                $full_body .= "Content-Description: " . $filename . "\r\n";
+                $full_body .= "Content-Disposition: attachment; filename=\"" . $filename . "\"; size=" . filesize($path) . ";\r\n";
+                $full_body .= "Content-Transfer-Encoding: base64\r\n\r\n";
+                $full_body .= $content . "\r\n\r\n";
+            }
+            $full_body .= "--" . $boundary . "--";
+        }
+
+        fputs($socket, $headers . "\r\n" . $full_body . "\r\n.\r\n");
         $this->smtp_response($socket, "250");
 
         fputs($socket, "QUIT\r\n");
@@ -134,13 +189,13 @@ class PHP_Email_Form
 
     private function smtp_response($socket, $expected_code)
     {
+        $response = "";
         while ($data = fgets($socket, 515)) {
+            $response .= $data;
             if (substr($data, 3, 1) != '-') {
                 break;
             }
         }
-        // Simplistic check
-        // return substr($data, 0, 3) == $expected_code;
         return true;
     }
 }

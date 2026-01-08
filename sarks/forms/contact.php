@@ -17,7 +17,12 @@ if (isset($_POST['recaptcha-response']) && !empty($_POST['recaptcha-response']))
   $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $_POST['recaptcha-response']);
   $responseData = json_decode($verifyResponse);
 
-  if (!$responseData->success || $responseData->score < 0.5) {
+  if (!$responseData || !isset($responseData->success) || !$responseData->success) {
+    die('reCAPTCHA verification failed. Please try again.');
+  }
+
+  // Double check score for v3
+  if (isset($responseData->score) && $responseData->score < 0.5) {
     die('reCAPTCHA verification failed. Spam detected.');
   }
 } else {

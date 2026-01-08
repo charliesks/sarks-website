@@ -110,11 +110,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["confirm_order"])) {
         // Note: In a real app, you'd want to handle this more robustly
         // Here we rely on the session cart still being populated
 
+        $guides_to_attach = [];
         foreach ($_SESSION['cart'] as $id => $cartItem) {
-            // We need to fetch product name and price again or store it in session
-            // For simplicity, let's query the DB for each item or assume we have it.
-            // Ideally, we should have fetched it above.
-            // Let's do a quick fetch here to be safe.
             $p_sql = "SELECT * FROM products WHERE pdtId = $id";
             $p_query = mysqli_query($conn, $p_sql);
             $p_row = mysqli_fetch_array($p_query);
@@ -125,6 +122,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["confirm_order"])) {
             $stmt->bind_param("iiddsss", $id, $cartItem['quantity'], $p_row['price'], $total_item_price, $cuName, $cuMobile, $cuAddress);
             $stmt->execute();
             $stmt->close();
+
+            // Prepare guide paths
+            $guide_path = __DIR__ . "/../assets/guides/" . $p_row['pdtName'] . " Plan.pdf";
+            if (file_exists($guide_path)) {
+                $guides_to_attach[] = ['path' => $guide_path, 'name' => $p_row['pdtName'] . " Plan.pdf"];
+            }
+        }
+
+        // Send confirmation email if library is available
+        if (file_exists($php_email_form = __DIR__ . '/../assets/vendor/php-email-form/php-email-form.php')) {
+            include_once($php_email_form);
+            $contact = new PHP_Email_Form;
+            $contact->smtp = array(
+                'host' => 'smtp.zoho.com',
+                'username' => 'info@sarks.org',
+                'password' => 'Q7aVrzHq2Lzt',
+                'port' => '587'
+            );
+
+            // Fetch customer email
+            $cu_email = "";
+            if (isset($_SESSION['uId'])) {
+                $c_id = $_SESSION['uId'];
+                $c_sql = "SELECT cuEmail FROM customer WHERE cuId = $c_id";
+                $c_query = mysqli_query($conn, $c_sql);
+                if ($c_row = mysqli_fetch_array($c_query)) {
+                    $cu_email = $c_row['cuEmail'];
+                }
+            }
+
+            if (!empty($cu_email)) {
+                $contact->to = $cu_email;
+                $contact->from_name = 'Sarks Support';
+                $contact->from_email = 'info@sarks.org';
+                $contact->subject = 'Order Confirmation - Sarks';
+
+                $contact->add_message($cuName, 'Customer Name');
+                $contact->add_message('Thank you for your order. Please find your product guides attached.', 'Message');
+
+                foreach ($guides_to_attach as $guide) {
+                    $contact->add_attachment($guide['path'], $guide['name']);
+                }
+
+                $contact->send();
+            }
         }
 
         // Clear the cart after order
