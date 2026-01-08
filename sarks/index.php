@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/includes/session_ready.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -45,7 +46,7 @@
     <header id="header" class="d-flex align-items-center">
       <div class="container d-flex align-items-center justify-content-between">
         <h1 class="logo">
-          <a href="index.html">
+          <a href="index.php">
             <img src="assets/img/sarks-red.png" alt="Sarks Logo" />
           </a>
         </h1>
@@ -58,7 +59,12 @@
             <li><a class="nav-link scrollto" href="#elements">Elements</a></li>
             <li><a class="nav-link" href="sarks-products.php">Plans</a></li>
             <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-            <li><a class="nav-link" href="sarks-login.php">Login</a></li>
+            <?php if (isset($_SESSION['uname'])): ?>
+              <li><a class="nav-link" href="cart/index.php">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a></li>
+              <li><a class="nav-link" href="sarks-cushome.php">Dashboard</a></li>
+            <?php else: ?>
+              <li><a class="nav-link" href="sarks-login.php">Login</a></li>
+            <?php endif; ?>
           </ul>
           <i class="bi bi-list mobile-nav-toggle"></i>
           <button id="music-toggle" class="music-btn">

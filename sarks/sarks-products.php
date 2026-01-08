@@ -146,16 +146,16 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['id'])) {
     <div class="container d-flex align-items-center justify-content-between">
 
       <h1 class="logo">
-        <a href="index.html">
+        <a href="index.php">
           <img src="assets/img/sarks-red.png" alt="Sarks Logo">
         </a>
       </h1>
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto" href="index.html#hero">Home</a></li>
+          <li><a class="nav-link scrollto" href="index.php#hero">Home</a></li>
           <li><a class="nav-link active" href="sarks-products.php">Plans</a></li>
-          <li><a class="nav-link scrollto" href="index.html#contact">Contact</a></li>
+          <li><a class="nav-link scrollto" href="index.php#contact">Contact</a></li>
           <?php if (isset($_SESSION['uname'])): ?>
             <li><a class="nav-link" href="cart/index.php">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a></li>
             <li><a class="nav-link" href="sarks-cushome.php">Dashboard</a></li>
@@ -284,8 +284,8 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['id'])) {
         <div class="col-lg-2 col-md-6 footer-links">
           <h4>Useful Links</h4>
           <ul>
-            <li><i class="bx bx-chevron-right"></i> <a href="index.html#hero">Home</a></li>
-            <li><i class="bx bx-chevron-right"></i> <a href="index.html#about">About us</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="index.php#hero">Home</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="index.php#about">About us</a></li>
             <li><i class="bx bx-chevron-right"></i> <a href="sarks-products.php">Plans</a></li>
           </ul>
         </div>
