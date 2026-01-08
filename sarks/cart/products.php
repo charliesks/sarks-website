@@ -1,39 +1,6 @@
 <?php
-require_once __DIR__ . '/../includes/session_ready.php';
-
-require_once __DIR__ . '/../includes/connection.php'; // central DB connection
-
-// Add item to cart
-if (isset($_GET['action']) && $_GET['action'] == "add") {
-    $id = intval($_GET['id']); // Ensure ID is an integer
-
-    if (isset($_SESSION['cart'][$id])) {
-        $_SESSION['cart'][$id]['quantity']++;
-    } else {
-        // Fetch product details from database
-        $id_safe = mysqli_real_escape_string($conn, $id);
-        $sql_s = "SELECT * FROM products WHERE pdtId = $id_safe";
-        $query_s = mysqli_query($conn, $sql_s);
-
-        if ($query_s && mysqli_num_rows($query_s) > 0) {
-            $row_s = mysqli_fetch_array($query_s);
-
-            $_SESSION['cart'][$row_s['pdtId']] = array(
-                "quantity" => 1,
-                "price" => $row_s['price']
-            );
-        } else {
-            $message = "This product ID is invalid!";
-        }
-    }
-    session_write_close();
-}
-?>
-
-<?php
-if (isset($message)) {
-    echo "<div class='alert alert-danger'>$message</div>";
-}
+// products.php - Just lists products. 
+// Logic for adding to cart is now handled in the central cart/index.php
 ?>
 
 <div class="table-responsive">

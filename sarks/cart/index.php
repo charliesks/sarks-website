@@ -11,7 +11,7 @@ if (isset($_GET['page']) && in_array($_GET['page'], $allowed_pages)) {
     $_page = $_GET['page'];
 }
 
-// Handle cart actions (remove, increase, decrease)
+// Handle cart actions (remove, increase, decrease, add)
 if (isset($_GET['action']) && isset($_GET['id'])) {
     $id = intval($_GET['id']);
     if ($_GET['action'] == "remove") {
@@ -25,6 +25,21 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
             $_SESSION['cart'][$id]['quantity']--;
             if ($_SESSION['cart'][$id]['quantity'] <= 0) {
                 unset($_SESSION['cart'][$id]);
+            }
+        }
+    } elseif ($_GET['action'] == "add") {
+        if (isset($_SESSION['cart'][$id])) {
+            $_SESSION['cart'][$id]['quantity']++;
+        } else {
+            // Fetch product details from database for new item
+            $sql_s = "SELECT * FROM products WHERE pdtId = $id";
+            $query_s = mysqli_query($conn, $sql_s);
+            if ($query_s && mysqli_num_rows($query_s) > 0) {
+                $row_s = mysqli_fetch_array($query_s);
+                $_SESSION['cart'][$id] = array(
+                    "quantity" => 1,
+                    "price" => $row_s['price']
+                );
             }
         }
     }
