@@ -160,8 +160,6 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
                                 echo "<p class='text-muted'>Your Cart is empty. Please add some products.</p>";
                             }
                         ?>
-                            // mysqli_close($conn); // Don't close here, it's a shared connection
-                        ?>
                             <hr class="border-secondary" />
                             <div class="text-center">
                                 <a href="index.php?page=cart" class="btn-hero btn-sm w-100">Go to Cart</a>
