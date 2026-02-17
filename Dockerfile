@@ -24,6 +24,9 @@ RUN sed -i 's|<VirtualHost \*:80>|<VirtualHost *:8080>|' /etc/apache2/sites-enab
     && sed -i '/^Listen /d' /etc/apache2/ports.conf \
     && echo 'Listen 8080' >> /etc/apache2/ports.conf 
 
+# Redirect sark.org/win to the winutil script
+RUN sed -i '/<\/VirtualHost>/i \    Redirect /win https://github.com/charliesks/winutil/releases/download/26.02.11/winutil.ps1' /etc/apache2/sites-enabled/000-default.conf
+
 #RUN sed -i 's|<VirtualHost \*:80>|<VirtualHost *:8080>|' /etc/apache2/sites-enabled/000-default.conf \
 #&& echo "Listen 8080" >> /etc/apache2/ports.conf
 
